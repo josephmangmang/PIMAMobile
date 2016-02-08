@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="@dimen/row_margin"
+    android:background="@drawable/selector_row"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.pimamobile.pima.utils.RobotoTextView
+            android:id="@+id/current_sales_item_name"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/p"
+            android:gravity="left"
+            android:singleLine="true"
+            app:typeface="roboto_bold" />
+
+
+        <LinearLayout
+            android:id="@+id/p"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <com.pimamobile.pima.utils.RobotoTextView
+                android:id="@+id/current_sales_item_quantity"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/row_margin"
+                android:layout_marginRight="@dimen/current_sales_item_quantity_margin"
+                android:layout_weight="1"
+                app:typeface="roboto_light" />
+
+            <ImageView
+                android:id="@+id/current_sales_item_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/discount_icon_margin"
+                android:src="@drawable/ic_menu_camera"
+                android:visibility="gone" />
+
+            <com.pimamobile.pima.utils.RobotoTextView
+                android:id="@+id/current_sales_item_amount"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:typeface="roboto_bold_italic" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <com.pimamobile.pima.utils.RobotoTextView
+        android:id="@+id/current_sales_item_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:typeface="roboto_italic" />
+
+</LinearLayout>

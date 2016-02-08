@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/activity_horizontal_margin">
+
+    <com.pimamobile.pima.utils.RobotoTextView
+        android:id="@+id/current_sales_discount_name"
+        style="@style/AppTheme.RobotoTextMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/d"
+        android:ellipsize="end"
+        android:singleLine="true"
+        app:typeface="roboto_black" />
+
+
+    <LinearLayout
+        android:id="@id/d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_weight="1"
+        android:gravity="right|center_vertical"
+        android:orientation="horizontal">
+
+        <com.pimamobile.pima.utils.RobotoTextView
+            android:id="@+id/current_sales_discount_affected"
+            style="@style/AppTheme.RobotoTextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:singleLine="true"
+            app:typeface="roboto_regular" />
+
+        <com.pimamobile.pima.utils.RobotoTextView
+            android:id="@+id/current_sales_discount_amount"
+            style="@style/AppTheme.RobotoTextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            app:typeface="roboto_regular" />
+
+        <ImageView
+            android:id="@+id/current_sales_discount_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_menu_camera"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+    </LinearLayout>
+</RelativeLayout>

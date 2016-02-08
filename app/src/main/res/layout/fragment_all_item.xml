@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginLeft="@dimen/text_margin"
+    android:layout_marginRight="@dimen/text_margin"
+    android:background="@drawable/selector_row"
+    android:gravity="center_vertical"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+
+
+
+    <com.pimamobile.pima.utils.RobotoTextView
+        android:layout_weight="1"
+        app:typeface="roboto_regular"
+        android:id="@+id/itemName"
+        android:text="Item"
+        android:maxLines="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:textAppearance="?attr/textAppearanceListItem" />
+    <com.pimamobile.pima.utils.RobotoTextView
+
+        app:typeface="roboto_regular"
+        android:id="@+id/itemPrice"
+        android:layout_width="wrap_content"
+        android:text="P100.00"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:textAppearance="?attr/textAppearanceListItem" />
+
+</LinearLayout>

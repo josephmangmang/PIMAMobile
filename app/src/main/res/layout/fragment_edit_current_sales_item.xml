@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.pimamobile.pima.utils.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_current_sales_item_note"
+            app:typeface="roboto_bold" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edit_current_sales_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edit_current_sales_item_note_hint" />
+        </android.support.design.widget.TextInputLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:id="@+id/edit_current_sales_quantity_deduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_toLeftOf="@+id/edit_current_sales_quantity"
+                android:src="@drawable/ic_menu_camera" />
+
+            <EditText
+                android:id="@+id/edit_current_sales_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:layout_centerHorizontal="true"
+                android:hint="0"
+                android:padding="@dimen/activity_horizontal_margin" />
+
+            <ImageView
+                android:id="@+id/edit_current_sales_quantity_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_toRightOf="@+id/edit_current_sales_quantity"
+                android:src="@drawable/ic_menu_camera" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/edit_current_sales_delete"
+            style="@style/AppTheme.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@color/keypad_clicked_color"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:text="@string/remove_item"
+            android:textColor="@color/colorAccent" />
+
+        <com.pimamobile.pima.utils.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DISCOUNTS"
+            app:typeface="roboto_black" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.pimamobile.pima.utils.RobotoTextView
+                style="@style/AppTheme.RobotoTextHeadline"
+                android:layout_width="wrap_content"
+                android:id="@+id/edit_current_sales_empty_discount"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="No Discount"
+                app:typeface="roboto_regular" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:layoutManager="LinearLayoutManager"
+                tools:listitem="@layout/edit_current_sale_discount" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/createDiscount_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name" />
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.pimamobile.pima.utils.RobotoTextView
+                android:id="@+id/createDiscount_symbol"
+                style="@style/Base.Widget.AppCompat.EditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/peso_symbol"
+                app:typeface="roboto_regular" />
+
+            <EditText
+                android:id="@+id/createDiscount_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/default_amountValue_zero"
+                android:inputType="numberDecimal" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:visibility="gone"
+                android:id="@+id/createDiscount_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Percent" />
+        </LinearLayout>
+
+        <com.pimamobile.pima.utils.RobotoTextView
+            style="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_discount_discription"
+            app:typeface="roboto_regular" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin">
+
+            <Button
+                android:id="@+id/createDiscount_delete"
+                style="@style/AppTheme.DeleteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Delete"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/createDiscount_save"
+                style="@style/AppTheme.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Save" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>
