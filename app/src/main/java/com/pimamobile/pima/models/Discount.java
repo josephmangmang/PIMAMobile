@@ -3,7 +3,13 @@ package com.pimamobile.pima.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Discount implements Parcelable {
+    public static final String DISCOUNT_NAME = "discount_name";
+    public static final String DISCOUNT_AMOUNT = "discount_amount";
+    public static final String DISCOUNT_IS_PERCENTAGE = "discount_is_percentage";
     private String discountName;
     private String discountAmount;
     private boolean isPercentage;
@@ -58,7 +64,17 @@ public class Discount implements Parcelable {
     public void setApplyToItem(boolean applyToItem) {
         this.applyToItem = applyToItem;
     }
-
+    public JSONObject getJsonObject(){
+        JSONObject object = new JSONObject();
+        try {
+            object.put(DISCOUNT_NAME, discountName);
+            object.put(DISCOUNT_AMOUNT, discountAmount);
+            object.put(DISCOUNT_IS_PERCENTAGE, isPercentage);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
     @Override
     public int describeContents() {
         return 0;

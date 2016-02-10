@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -24,6 +25,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.pimamobile.pima.activities.ItemsActivity;
 import com.pimamobile.pima.fragments.ChargeFragment;
 import com.pimamobile.pima.fragments.CurrentSalesDiscountFragment;
@@ -38,10 +46,16 @@ import com.pimamobile.pima.models.Sale;
 import com.pimamobile.pima.utils.Calculator;
 import com.pimamobile.pima.utils.ToastMessage;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /*
  This is the MainActivity that extends AppCompatActivity class.
@@ -56,11 +70,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String KEY_CURRENT_SALES_TOTAL_AMOUNT = "sales_total_amount";
     public static final String KEY_CURRENT_SALES_DISCOUNTS = "sales_discounts";
     public static final String KEY_CURRENT_SALES_TOTAL_DISCOUNT = "sales_total_discount";
+    public static final String KEY_USER_ID = "userliouu";
+
     private DrawerLayout mDrawer;
     private LinearLayout mCurrentSaleButton;
     private TextView mToolbarTitleVIew;
     private TextView mCurrentSalesCountView;
-
     private ArrayList<Sale> mCurrentSales = new ArrayList<>();
     private ArrayList<Discount> mCurrentSalesDiscounts = new ArrayList<>();
     private Sale dummySaleForDiscount = new Sale(true, "", "0");
@@ -73,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static boolean mIsHome = true;
     private boolean mTransactionIsOnGoing = false;
     private SharedPreferences mPreferences;
+    private int mUserId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,12 +99,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         navigationView.setNavigationItemSelectedListener(this);
         mToolbarTitleVIew = (TextView) findViewById(R.id.toolbar_title);
         mCurrentSaleButton = (LinearLayout) findViewById(R.id.toolbar_sales_summary_container);
         mCurrentSalesCountView = (TextView) findViewById(R.id.toolbar_sales_count);
         mCurrentSaleButton.setOnClickListener(currentSalesButtonListener);
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        mUserId = mPreferences.getInt(KEY_USER_ID, -1);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, HomeFragment.newInstance(), "home").commit();
 
@@ -417,7 +435,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return;
             }
             String change = Calculator.deductAmount(new BigDecimal(amountRecieved), new BigDecimal(mCurrentSalesTotalAmount)).toString();
-            subtitle = "₱" + change.toString() + " change out of ₱" + amountRecieved;
+            subtitle = "₱" + change + " change out of ₱" + amountRecieved;
+            // add sales to our web server
+
         } else {
             subtitle = "No change out of ₱" + mCurrentSalesTotalAmount;
         }
@@ -427,14 +447,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         chargeFragment.paymentDone();
         mToolbarTitleVIew.setText("Charged");
         mCurrentSalesCountView.setText("0");
-        mCurrentSalesTotalAmount = "0";
         // TODO save all sales data to db;
+        addSalesToServer(mCurrentSales, mCurrentSalesTotalAmount, mCurrentSalesDiscounts);
 
-        mCurrentSalesDiscounts = new ArrayList<>();
-        mCurrentSales = new ArrayList<>();
-        mCurrentItemPosition = 0;
-        mCurrentSalesTotalItems = "0";
-        mTotalDiscount = "0";
     }
 
     private void hideSoftKeyboard() {
@@ -474,9 +489,94 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         calculateCurrentTotalSale(mCurrentSales);
     }
 
-    /*
-      to get current date
-      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-      String date = sdf.format(new Date());
-     */
+    private void addSalesToServer(final ArrayList<Sale> mCurrentSales, final String mCurrentSalesTotalAmount, final ArrayList<Discount> mCurrentSalesDiscounts) {
+
+        new AsyncTask<Void, Void, JSONArray[]>() {
+            final String REQUEST_TAG = "add_sales_to_server";
+            final JSONArray jsonArraySales = new JSONArray();
+            final JSONArray jsonArrayDiscounts = new JSONArray();
+            final JSONObject jsonObject = new JSONObject();
+            final ArrayList<Discount> finalMCurrentSalesDiscounts = mCurrentSalesDiscounts;
+
+            @Override
+            protected JSONArray[] doInBackground(Void... params) {
+                Log.i(TAG, "doInBackground is called..");
+                JSONArray[] jsonArray = new JSONArray[2];
+                int salesSize = mCurrentSales.size();
+                if (mCurrentSales.get(salesSize - 1).getItemPrice().equals("0")) {
+                    mCurrentSales.remove(salesSize - 1);
+                }
+                salesSize = mCurrentSales.size();
+                for (int i = 0; i < salesSize; i++) {
+                    jsonArraySales.put(mCurrentSales.get(i).getJSONObject());
+                }
+                for (int i = 0; i < finalMCurrentSalesDiscounts.size(); i++) {
+                    jsonArrayDiscounts.put(finalMCurrentSalesDiscounts.get(i).getJsonObject());
+                }
+
+                jsonArray[0] = jsonArraySales;
+                jsonArray[1] = jsonArrayDiscounts;
+                return jsonArray;
+            }
+
+            @Override
+            protected void onPostExecute(JSONArray[] jsonArrays) {
+                Log.i(TAG, "onPostExecute.. is called");
+                try {
+                    jsonObject.put("id", 1);
+                    jsonObject.put("time", System.currentTimeMillis());
+                    jsonObject.put("sales_total_amount", mCurrentSalesTotalAmount);
+                    jsonObject.put("sold_items", jsonArrays[0]);
+                    jsonObject.put("sold_discounts", jsonArrays[1]);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i(TAG, "JsonObject: " + jsonObject.toString());
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                        LoginActivity.SERVER_URL, jsonObject, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        boolean error = true;
+                        try {
+                            Log.i(TAG, "RESPONSE FROM SERVER:\n" + response.toString());
+                            error = response.getBoolean("error");
+                        } catch (JSONException e) {
+                            VolleyLog.e(TAG, e);
+                        }
+                        if (error) {
+                            // TODO do something if we received error
+                        } else {
+                            // TODO if saving to server is successfull
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        // TODO do something if we received error
+                    }
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<>();
+                        params.put("Accept", "application/json");
+                        params.put("Content-Type", "application/json");
+                        return params;
+                    }
+                };
+
+                // Add request to our queue
+                PimaApplication.getmInstance().addToReqQueue(jsonObjectRequest, REQUEST_TAG);
+            }
+        }.execute();
+
+        // after passing to server reset all variable for new sale
+        this.mCurrentSalesDiscounts = new ArrayList<>();
+        this.mCurrentSales = new ArrayList<>();
+        this.mCurrentItemPosition = 0;
+        this.mCurrentSalesTotalItems = "0";
+        this.mTotalDiscount = "0";
+        this.mCurrentSalesTotalAmount = "0";
+    }
+
 }

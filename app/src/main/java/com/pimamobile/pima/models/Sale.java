@@ -6,11 +6,20 @@ import android.os.Parcelable;
 
 import com.pimamobile.pima.utils.Calculator;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Sale implements Parcelable {
+
+    public static final String SALES_ITEM_NAME = "item_name";
+    public static final String SALES_ITEM_PRICE = "item_price";
+    public static final String SALES_ITEM_TOTAL_AMOUNT = "item_total_amount";
+    public static final String SALES_ITEM_NOTE = "item_note";
+    private static final String SALES_ITEM_QUANTITY = "item_quantity";
     private int id;
     private String itemName;
     private String itemPrice;
@@ -109,6 +118,21 @@ public class Sale implements Parcelable {
 
     public void setItemPrice(String itemPrice) {
         this.itemPrice = itemPrice;
+    }
+
+    public JSONObject getJSONObject() {
+        JSONObject object = new JSONObject();
+        try {
+            object.put(SALES_ITEM_NAME, itemName);
+            object.put(SALES_ITEM_PRICE, itemPrice);
+            object.put(SALES_ITEM_QUANTITY, itemQuantity);
+            object.put(SALES_ITEM_NOTE, itemNote);
+            object.put(SALES_ITEM_TOTAL_AMOUNT, getItemTotalAmount());
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+        return object;
     }
 
     @Override

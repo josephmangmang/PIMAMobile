@@ -51,7 +51,7 @@
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Email/Branch Name</string>
+    <string name="prompt_email">Branch Name</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -66,5 +66,12 @@
     <string name="register_branch_name">Branch Name</string>
     <string name="action_register_branch">Create Branch</string>
     <string name="register_branch_email">Email</string>
+    <string name="title_register_branch">Register Branch</string>
+    <string name="prompt_address">Branch Location</string>
+    <string name="register_show_password">Show Password</string>
+    <string name="register_error_branch_exist">Branch name or email already exist.</string>
+    <string name="register_success">New branch successfully created.</string>
+    <string name="connection_error">Connection interrupted. Check you internet connection.</string>
+    <string name="error_branch_name_has_space">Branch name should not contain any space. Replace with underscore.</string>
 
 </resources>
