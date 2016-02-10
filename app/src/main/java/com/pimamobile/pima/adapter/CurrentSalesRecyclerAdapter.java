@@ -13,10 +13,8 @@ import android.widget.TextView;
 
 import com.pimamobile.pima.MainActivity;
 import com.pimamobile.pima.R;
-import com.pimamobile.pima.fragments.CurrentSalesFragment;
-import com.pimamobile.pima.models.Discount;
 import com.pimamobile.pima.models.Sale;
-import com.pimamobile.pima.utils.FragmentInterface;
+import com.pimamobile.pima.utils.interfaces.OnFragmentInteractListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +24,10 @@ public class CurrentSalesRecyclerAdapter extends RecyclerView.Adapter<CurrentSal
 
     private static final String TAG = "SalesRecyclerAdapter";
     private List<Sale> mSales = new ArrayList<>();
-    private FragmentInterface mListener;
+    private OnFragmentInteractListener mListener;
     private String mTotalDiscount;
 
-    public CurrentSalesRecyclerAdapter(Context context, List<Sale> sales,FragmentInterface listener) {
+    public CurrentSalesRecyclerAdapter(Context context, List<Sale> sales,OnFragmentInteractListener listener) {
         mSales = sales;
         mListener = listener;
         SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(context);

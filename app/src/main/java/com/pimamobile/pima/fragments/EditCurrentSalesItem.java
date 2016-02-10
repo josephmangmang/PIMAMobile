@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +16,8 @@ import android.widget.ImageView;
 
 import com.pimamobile.pima.MainActivity;
 import com.pimamobile.pima.R;
-import com.pimamobile.pima.models.Discount;
 import com.pimamobile.pima.models.Sale;
-import com.pimamobile.pima.utils.FragmentInterface;
+import com.pimamobile.pima.utils.interfaces.OnFragmentInteractListener;
 
 public class EditCurrentSalesItem extends Fragment {
 
@@ -31,7 +29,7 @@ public class EditCurrentSalesItem extends Fragment {
     private Button mQuantityDeleteItem;
     private RecyclerView mRecyclerView;
     private Sale mCurrentSalesItem;
-    private FragmentInterface mListener;
+    private OnFragmentInteractListener mListener;
     private int mItemQuantity;
     private String mItemNote;
 
@@ -78,11 +76,11 @@ public class EditCurrentSalesItem extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof FragmentInterface) {
-            mListener = (FragmentInterface) context;
+        if (context instanceof OnFragmentInteractListener) {
+            mListener = (OnFragmentInteractListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement FragmentInterface");
+                    + " must implement OnFragmentInteractListener");
         }
     }
 

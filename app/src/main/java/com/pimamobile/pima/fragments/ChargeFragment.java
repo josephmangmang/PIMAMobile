@@ -1,17 +1,13 @@
 package com.pimamobile.pima.fragments;
 
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,7 +20,7 @@ import com.pimamobile.pima.models.Discount;
 import com.pimamobile.pima.models.Group;
 import com.pimamobile.pima.models.Sale;
 import com.pimamobile.pima.utils.Calculator;
-import com.pimamobile.pima.utils.FragmentInterface;
+import com.pimamobile.pima.utils.interfaces.OnFragmentInteractListener;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -42,7 +38,7 @@ public class ChargeFragment extends Fragment {
     private View mConfirmSummaryContainer;
     public TextView mDoneTitle;
     public TextView mDoneSubtitle;
-    private FragmentInterface mListener;
+    private OnFragmentInteractListener mListener;
 
     public static ChargeFragment newInstance(Bundle bundle) {
         ChargeFragment fragment = new ChargeFragment();
@@ -107,11 +103,11 @@ public class ChargeFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof FragmentInterface) {
-            mListener = (FragmentInterface) context;
+        if (context instanceof OnFragmentInteractListener) {
+            mListener = (OnFragmentInteractListener) context;
         } else {
             throw new RuntimeException(context.toString() +
-                    "must implement FragmentInterface");
+                    "must implement OnFragmentInteractListener");
         }
     }
 

@@ -38,15 +38,22 @@ public class Sale implements Parcelable {
         this.itemPrice = amount;
     }
 
-    public Sale(String itemName, String itemPrice, String itemNote, List<Discount> discounts, int itemQuantity, boolean hasDiscount) {
+    public Sale(String itemName, String itemPrice, int itemQuantity) {
         this.itemName = itemName;
         this.itemPrice = itemPrice;
-        this.itemNote = itemNote;
-        this.discounts = discounts;
         this.itemQuantity = itemQuantity;
-        this.isDiscount = hasDiscount;
     }
 
+    /*
+        public Sale(String itemName, String itemPrice, String itemNote, List<Discount> discounts, int itemQuantity, boolean hasDiscount) {
+            this.itemName = itemName;
+            this.itemPrice = itemPrice;
+            this.itemNote = itemNote;
+            this.discounts = discounts;
+            this.itemQuantity = itemQuantity;
+            this.isDiscount = hasDiscount;
+        }
+    */
     public Sale(Parcel source) {
         this.itemName = source.readString();
         this.itemNote = source.readString();

@@ -1,11 +1,12 @@
-package com.pimamobile.pima.utils;
+package com.pimamobile.pima.utils.interfaces;
 
 
 import com.pimamobile.pima.models.Discount;
+import com.pimamobile.pima.models.History;
 import com.pimamobile.pima.models.Item;
 import com.pimamobile.pima.models.Sale;
 
-public interface FragmentInterface {
+public interface OnFragmentInteractListener {
     void onLibraryItemClickListener(Item item);
     void onLibraryItemClickListener(Discount discount);
     void onCurrentSaleClicked(Sale sale);
@@ -21,4 +22,5 @@ public interface FragmentInterface {
     void onChargeConfirmClicked(String amountRecieved);
     void onNewSaleClicked();
     void onAddCustomItem(String note, String price);
+    void onHistoryItemClicked(History history);
 }

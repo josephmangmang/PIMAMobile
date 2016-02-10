@@ -23,7 +23,7 @@ import com.pimamobile.pima.adapter.AllItemRecyclerAdapter;
 import com.pimamobile.pima.models.Category;
 import com.pimamobile.pima.models.Discount;
 import com.pimamobile.pima.models.Item;
-import com.pimamobile.pima.utils.FragmentInterface;
+import com.pimamobile.pima.utils.interfaces.OnFragmentInteractListener;
 import com.pimamobile.pima.utils.SQLiteHelper;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class ItemLibraryFragment extends Fragment {
     private static final String TAG = "ItemLibraryFragment";
     private AppCompatSpinner mSpinner;
     private SQLiteHelper mSqLiteHelper;
-    private FragmentInterface mListener;
+    private OnFragmentInteractListener mListener;
     private RecyclerView mRecyclerView;
     List<String> mLibrarySpinnerItems;
     private Context mContext;
@@ -181,11 +181,11 @@ public class ItemLibraryFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof FragmentInterface) {
-            mListener = (FragmentInterface) context;
+        if (context instanceof OnFragmentInteractListener) {
+            mListener = (OnFragmentInteractListener) context;
         } else {
             throw new RuntimeException(context.toString() +
-                    "Must implement FragmentInterface on your activity");
+                    "Must implement OnFragmentInteractListener on your activity");
         }
     }
 

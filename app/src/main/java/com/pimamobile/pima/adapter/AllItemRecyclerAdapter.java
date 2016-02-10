@@ -10,10 +10,9 @@ import android.widget.TextView;
 import com.pimamobile.pima.R;
 import com.pimamobile.pima.fragments.AllDiscountFragment;
 import com.pimamobile.pima.fragments.AllItemFragment;
-import com.pimamobile.pima.fragments.ItemLibraryFragment;
 import com.pimamobile.pima.models.Discount;
 import com.pimamobile.pima.models.Item;
-import com.pimamobile.pima.utils.FragmentInterface;
+import com.pimamobile.pima.utils.interfaces.OnFragmentInteractListener;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class AllItemRecyclerAdapter extends RecyclerView.Adapter<AllItemRecycler
     private AllDiscountFragment.OnDiscountListener mDiscountListener;
     private List<Item> mItems;
     private List<Discount> mDiscounts;
-    private FragmentInterface mListener;
+    private OnFragmentInteractListener mListener;
     private boolean mIsDiscountList = false;
     private boolean mIsFromLibrary = false;
 
@@ -50,7 +49,7 @@ public class AllItemRecyclerAdapter extends RecyclerView.Adapter<AllItemRecycler
         mIsFromLibrary = false;
     }
 
-    public AllItemRecyclerAdapter(Context mContext, List<Discount> discounts, List<Item> items, FragmentInterface mLibraryItemListener) {
+    public AllItemRecyclerAdapter(Context mContext, List<Discount> discounts, List<Item> items, OnFragmentInteractListener mLibraryItemListener) {
         this.mContext = mContext;
         if (items == null) {
             mDiscounts = discounts;

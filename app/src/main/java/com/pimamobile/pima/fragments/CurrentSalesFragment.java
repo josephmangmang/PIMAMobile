@@ -17,9 +17,8 @@ import android.widget.ProgressBar;
 import com.pimamobile.pima.MainActivity;
 import com.pimamobile.pima.R;
 import com.pimamobile.pima.adapter.CurrentSalesRecyclerAdapter;
-import com.pimamobile.pima.models.Discount;
 import com.pimamobile.pima.models.Sale;
-import com.pimamobile.pima.utils.FragmentInterface;
+import com.pimamobile.pima.utils.interfaces.OnFragmentInteractListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ import java.util.List;
 public class CurrentSalesFragment extends Fragment {
 
     private static final String TAG = "CurrentSalesFragment";
-    private FragmentInterface mListener;
+    private OnFragmentInteractListener mListener;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     private ArrayList<Sale> mCurrentSales;
@@ -91,11 +90,11 @@ public class CurrentSalesFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof FragmentInterface) {
-            mListener = (FragmentInterface) context;
+        if (context instanceof OnFragmentInteractListener) {
+            mListener = (OnFragmentInteractListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + "Must implement FragmentInterface");
+                    + "Must implement OnFragmentInteractListener");
         }
     }
 

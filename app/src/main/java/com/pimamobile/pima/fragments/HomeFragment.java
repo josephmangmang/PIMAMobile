@@ -16,14 +16,14 @@ import android.widget.Button;
 import com.pimamobile.pima.MainActivity;
 import com.pimamobile.pima.R;
 import com.pimamobile.pima.adapter.ViewPagerAdapter;
-import com.pimamobile.pima.utils.FragmentInterface;
+import com.pimamobile.pima.utils.interfaces.OnFragmentInteractListener;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
     public Button mChargeButton;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
-    private FragmentInterface mListener;
+    private OnFragmentInteractListener mListener;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -70,11 +70,11 @@ public class HomeFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof FragmentInterface) {
-            mListener = (FragmentInterface) context;
+        if (context instanceof OnFragmentInteractListener) {
+            mListener = (OnFragmentInteractListener) context;
         } else {
             throw new RuntimeException(context.toString() +
-                    "must implement FragmentInterface");
+                    "must implement OnFragmentInteractListener");
         }
     }
 

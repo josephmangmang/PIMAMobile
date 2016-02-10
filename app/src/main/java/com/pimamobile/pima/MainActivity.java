@@ -35,12 +35,14 @@ import com.pimamobile.pima.fragments.ChargeFragment;
 import com.pimamobile.pima.fragments.CurrentSalesDiscountFragment;
 import com.pimamobile.pima.fragments.CurrentSalesFragment;
 import com.pimamobile.pima.fragments.EditCurrentSalesItem;
+import com.pimamobile.pima.fragments.HistoryFragment;
 import com.pimamobile.pima.fragments.HomeFragment;
 import com.pimamobile.pima.models.Discount;
+import com.pimamobile.pima.models.History;
 import com.pimamobile.pima.models.Item;
 import com.pimamobile.pima.models.Sale;
 import com.pimamobile.pima.utils.Calculator;
-import com.pimamobile.pima.utils.FragmentInterface;
+import com.pimamobile.pima.utils.interfaces.OnFragmentInteractListener;
 import com.pimamobile.pima.utils.ToastMessage;
 
 import org.json.JSONArray;
@@ -58,7 +60,7 @@ import java.util.Map;
  This is the MainActivity that extends AppCompatActivity class.
  The starting point of the app, mao ni ang tawgon every time we open the app.
 */
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentInterface{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnFragmentInteractListener {
 
     private static final String TAG = "MainActivity";
     public static final String KEY_CURRENT_SALES = "sales_data";
@@ -197,10 +199,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
 
         } else if (id == R.id.nav_items) {
-
             startActivity(new Intent(this, ItemsActivity.class));
         } else if (id == R.id.nav_history) {
-
+            getSupportFragmentManager().beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .replace(R.id.fragment_container, HistoryFragment.newInstance())
+                    .addToBackStack(null).commit();
         } else if (id == R.id.nav_reports) {
 
         } else if (id == R.id.nav_settings) {
@@ -574,5 +578,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.mTotalDiscount = "0";
         this.mCurrentSalesTotalAmount = "0";
     }
+
+    @Override
+    public void onHistoryItemClicked(History history) {
+
+    }
+
 
 }

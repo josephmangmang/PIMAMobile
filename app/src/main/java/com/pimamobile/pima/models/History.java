@@ -12,17 +12,16 @@ public class History {
     private List<Sale> sales;
     private List<Discount> discounts;
     private String totalAmount = "0";
-    private String timeStamp;
+    private long timeStamp;
     private String totalDiscount = "0";
 
     public History() {
     }
 
-    public History(List<Sale> mSales, List<Discount> mDiscounts, String mTotalAmount, String mDate) {
+    public History(List<Sale> mSales, List<Discount> mDiscounts, long timeStamp) {
         this.sales = mSales;
         this.discounts = mDiscounts;
-        this.totalAmount = mTotalAmount;
-        this.timeStamp = mDate;
+        this.timeStamp = timeStamp;
     }
 
     public List<Sale> getSales() {
@@ -64,11 +63,11 @@ public class History {
         return totalAmount;
     }
 
-    public String getTimeStamp() {
+    public long getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
+    public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
 

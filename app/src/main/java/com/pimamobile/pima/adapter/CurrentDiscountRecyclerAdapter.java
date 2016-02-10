@@ -10,9 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pimamobile.pima.R;
-import com.pimamobile.pima.fragments.CurrentSalesDiscountFragment;
 import com.pimamobile.pima.models.Discount;
-import com.pimamobile.pima.utils.FragmentInterface;
+import com.pimamobile.pima.utils.interfaces.OnFragmentInteractListener;
 
 import java.util.List;
 
@@ -20,9 +19,9 @@ public class CurrentDiscountRecyclerAdapter extends RecyclerView.Adapter<Current
 
     private static final String TAG = "CurrentDiscountAdapter";
     private List<Discount> mDiscounts;
-    private FragmentInterface mListener;
+    private OnFragmentInteractListener mListener;
 
-    public CurrentDiscountRecyclerAdapter(List<Discount> mDiscounts, FragmentInterface mListener) {
+    public CurrentDiscountRecyclerAdapter(List<Discount> mDiscounts, OnFragmentInteractListener mListener) {
         this.mDiscounts = mDiscounts;
         this.mListener = mListener;
     }
