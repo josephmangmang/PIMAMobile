@@ -30,7 +30,6 @@ public class Sale implements Parcelable {
     private boolean isDiscount = false;
 
     public Sale() {
-
     }
 
     public Sale(boolean isDiscount, String discountName, String amount) {

@@ -33,7 +33,7 @@ public class ItemLibraryFragment extends Fragment {
     private static final String TAG = "ItemLibraryFragment";
     private AppCompatSpinner mSpinner;
     private SQLiteHelper mSqLiteHelper;
-    private OnLibraryItemClickListener mLibraryItemListener;
+    private OnLibraryItemClickListener mListener;
     private RecyclerView mRecyclerView;
     List<String> mLibrarySpinnerItems;
     private Context mContext;
@@ -162,13 +162,13 @@ public class ItemLibraryFragment extends Fragment {
                 case 1:
                     mEmptyView.setVisibility(discounts.isEmpty() ? View.VISIBLE : View.GONE);
                     mEmptyView.setText(getString(R.string.empty_library_category_list) + " Discount");
-                    adapter = new AllItemRecyclerAdapter(mContext, discounts, null, mLibraryItemListener);
+                    adapter = new AllItemRecyclerAdapter(mContext, discounts, null, mListener);
 
                     break;
                 default:
                     mEmptyView.setVisibility(items.isEmpty() ? View.VISIBLE : View.GONE);
                     mEmptyView.setText(getString(R.string.empty_library_category_list) + " " + mLibrarySpinnerItems.get(type));
-                    adapter = new AllItemRecyclerAdapter(mContext, null, items, mLibraryItemListener);
+                    adapter = new AllItemRecyclerAdapter(mContext, null, items, mListener);
                     break;
             }
             mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -181,7 +181,7 @@ public class ItemLibraryFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnLibraryItemClickListener) {
-            mLibraryItemListener = (OnLibraryItemClickListener) context;
+            mListener = (OnLibraryItemClickListener) context;
         } else {
             throw new RuntimeException(context.toString() +
                     "Must implement OnLibraryItemClickListener on your activity");
@@ -192,12 +192,11 @@ public class ItemLibraryFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
 
-        mLibraryItemListener = null;
+        mListener = null;
     }
 
     public interface OnLibraryItemClickListener {
         void onLibraryItemClickListener(Item item);
-
         void onLibraryItemClickListener(Discount discount);
     }
 }
