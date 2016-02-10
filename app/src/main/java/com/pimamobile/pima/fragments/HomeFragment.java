@@ -16,14 +16,14 @@ import android.widget.Button;
 import com.pimamobile.pima.MainActivity;
 import com.pimamobile.pima.R;
 import com.pimamobile.pima.adapter.ViewPagerAdapter;
+import com.pimamobile.pima.utils.FragmentInterface;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
     public Button mChargeButton;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
-    private CurrentSalesFragment.OnCurrentSalesClickListener mSalesClickListener;
-    private OnHomeFragmentInteraction mHomeListener;
+    private FragmentInterface mListener;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -63,19 +63,18 @@ public class HomeFragment extends Fragment {
     private View.OnClickListener chargeButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mHomeListener.onChargeButtonClicked();
+            mListener.onChargeButtonClicked();
         }
     };
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof CurrentSalesFragment.OnCurrentSalesClickListener) {
-            mSalesClickListener = (CurrentSalesFragment.OnCurrentSalesClickListener) context;
-            mHomeListener = (OnHomeFragmentInteraction) context;
+        if (context instanceof FragmentInterface) {
+            mListener = (FragmentInterface) context;
         } else {
             throw new RuntimeException(context.toString() +
-                    "must implement OnCurrentSalesClickListener");
+                    "must implement FragmentInterface");
         }
     }
 
@@ -84,9 +83,11 @@ public class HomeFragment extends Fragment {
         super.onResume();
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         MainActivity.mIsHome = true;
-        mSalesClickListener.onFragmentStart(false);
+        mListener.onFragmentStart(false);
     }
+    /*
     public interface OnHomeFragmentInteraction{
         void onChargeButtonClicked();
     }
+    */
 }

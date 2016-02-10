@@ -17,15 +17,15 @@ import com.pimamobile.pima.MainActivity;
 import com.pimamobile.pima.R;
 import com.pimamobile.pima.adapter.CurrentDiscountRecyclerAdapter;
 import com.pimamobile.pima.models.Discount;
+import com.pimamobile.pima.utils.FragmentInterface;
 
 import java.util.List;
 
 public class CurrentSalesDiscountFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private List<Discount> mDiscounts;
-    private OnCurrentDiscountsClick mListener;
     private ProgressBar mProgressBar;
-    private EditCurrentSalesItem.OnEditCurrentSalesItemInteraction mDistroyListener;
+    private FragmentInterface mListener;
 
     public static CurrentSalesDiscountFragment newInstance(Bundle bundle) {
         CurrentSalesDiscountFragment fragment = new CurrentSalesDiscountFragment();
@@ -81,24 +81,23 @@ public class CurrentSalesDiscountFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnCurrentDiscountsClick) {
-            mListener = (OnCurrentDiscountsClick) context;
-            mDistroyListener = (EditCurrentSalesItem.OnEditCurrentSalesItemInteraction) context;
+        if (context instanceof FragmentInterface) {
+            mListener = (FragmentInterface) context;
         } else {
             throw new RuntimeException(context.toString() +
-                    "must implement onCurrentDiscountsClick");
+                    "must implement FragmentInterface");
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mDistroyListener.onEditCurrentSalesItemDistroy();
+        mListener.onEditCurrentSalesItemDistroy();
         mListener = null;
-        mDistroyListener = null;
     }
-
+/*
     public interface OnCurrentDiscountsClick {
         void onCurrentDiscountRemove(Discount discount, int position);
     }
+    */
 }

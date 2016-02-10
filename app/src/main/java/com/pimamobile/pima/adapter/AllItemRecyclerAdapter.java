@@ -13,44 +13,44 @@ import com.pimamobile.pima.fragments.AllItemFragment;
 import com.pimamobile.pima.fragments.ItemLibraryFragment;
 import com.pimamobile.pima.models.Discount;
 import com.pimamobile.pima.models.Item;
+import com.pimamobile.pima.utils.FragmentInterface;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link Item} and makes a call to the
- * specified {@link AllItemFragment.OnItemListener}.
- */
+
 public class AllItemRecyclerAdapter extends RecyclerView.Adapter<AllItemRecyclerAdapter.ViewHolder> {
 
     private final Context mContext;
+    private AllItemFragment.OnItemListener mItemListener;
+    private AllDiscountFragment.OnDiscountListener mDiscountListener;
     private List<Item> mItems;
     private List<Discount> mDiscounts;
-    private AllItemFragment.OnItemListener mListener;
-    private AllDiscountFragment.OnDiscountListener mDiscountListener;
-    private ItemLibraryFragment.OnLibraryItemClickListener mLibraryItemListener;
+    private FragmentInterface mListener;
     private boolean mIsDiscountList = false;
+    private boolean mIsFromLibrary = false;
 
     public AllItemRecyclerAdapter(Context context, List<Item> items) {
         this(context, items, null);
     }
 
 
-    public AllItemRecyclerAdapter(Context context, List<Discount> discounts,
-                                  AllDiscountFragment.OnDiscountListener discountListener) {
+    public AllItemRecyclerAdapter(Context context, List<Discount> discounts, AllDiscountFragment.OnDiscountListener discountListener) {
         this.mContext = context;
         mDiscounts = discounts;
         mDiscountListener = discountListener;
         mIsDiscountList = true;
+        mIsFromLibrary = false;
     }
 
     public AllItemRecyclerAdapter(Context mContext, List<Item> items, AllItemFragment.OnItemListener listener) {
         this.mContext = mContext;
         mItems = items;
-        mListener = listener;
+        mItemListener = listener;
         mIsDiscountList = false;
+        mIsFromLibrary = false;
     }
 
-    public AllItemRecyclerAdapter(Context mContext, List<Discount> discounts, List<Item> items, ItemLibraryFragment.OnLibraryItemClickListener mLibraryItemListener) {
+    public AllItemRecyclerAdapter(Context mContext, List<Discount> discounts, List<Item> items, FragmentInterface mLibraryItemListener) {
         this.mContext = mContext;
         if (items == null) {
             mDiscounts = discounts;
@@ -59,7 +59,8 @@ public class AllItemRecyclerAdapter extends RecyclerView.Adapter<AllItemRecycler
             mIsDiscountList = false;
             mItems = items;
         }
-        this.mLibraryItemListener = mLibraryItemListener;
+        mIsFromLibrary = true;
+        this.mListener = mLibraryItemListener;
     }
 
 
@@ -82,11 +83,12 @@ public class AllItemRecyclerAdapter extends RecyclerView.Adapter<AllItemRecycler
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (null != mDiscountListener) {
-                        mDiscountListener.onDiscountClicked(holder.mDiscount);
-                    }
-                    if (null != mLibraryItemListener) {
-                        mLibraryItemListener.onLibraryItemClickListener(holder.mDiscount);
+                    if (!mIsFromLibrary) {
+                        if (null != mDiscountListener) {
+                            mDiscountListener.onDiscountClicked(holder.mDiscount);
+                        }
+                    } else {
+                        mListener.onLibraryItemClickListener(holder.mDiscount);
                     }
                 }
             });
@@ -99,13 +101,14 @@ public class AllItemRecyclerAdapter extends RecyclerView.Adapter<AllItemRecycler
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (null != mListener) {
+                    if (!mIsFromLibrary) {
                         // Notify the active callbacks interface (the activity, if the
                         // fragment is attached to one) that an item has been selected.
-                        mListener.onItemClicked(holder.mItem);
-                    }
-                    if (null != mLibraryItemListener) {
-                        mLibraryItemListener.onLibraryItemClickListener(holder.mItem);
+                        if (null != mItemListener) {
+                            mItemListener.onItemClicked(holder.mItem);
+                        }
+                    } else {
+                        mListener.onLibraryItemClickListener(holder.mItem);
                     }
                 }
             });

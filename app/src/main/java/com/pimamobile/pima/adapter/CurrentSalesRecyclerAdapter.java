@@ -16,6 +16,7 @@ import com.pimamobile.pima.R;
 import com.pimamobile.pima.fragments.CurrentSalesFragment;
 import com.pimamobile.pima.models.Discount;
 import com.pimamobile.pima.models.Sale;
+import com.pimamobile.pima.utils.FragmentInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +26,10 @@ public class CurrentSalesRecyclerAdapter extends RecyclerView.Adapter<CurrentSal
 
     private static final String TAG = "SalesRecyclerAdapter";
     private List<Sale> mSales = new ArrayList<>();
-    private CurrentSalesFragment.OnCurrentSalesClickListener mListener;
+    private FragmentInterface mListener;
     private String mTotalDiscount;
 
-    public CurrentSalesRecyclerAdapter(Context context, List<Sale> sales, CurrentSalesFragment.OnCurrentSalesClickListener listener) {
+    public CurrentSalesRecyclerAdapter(Context context, List<Sale> sales,FragmentInterface listener) {
         mSales = sales;
         mListener = listener;
         SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(context);

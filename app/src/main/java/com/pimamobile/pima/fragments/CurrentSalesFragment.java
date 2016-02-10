@@ -19,6 +19,7 @@ import com.pimamobile.pima.R;
 import com.pimamobile.pima.adapter.CurrentSalesRecyclerAdapter;
 import com.pimamobile.pima.models.Discount;
 import com.pimamobile.pima.models.Sale;
+import com.pimamobile.pima.utils.FragmentInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.List;
 public class CurrentSalesFragment extends Fragment {
 
     private static final String TAG = "CurrentSalesFragment";
-    private OnCurrentSalesClickListener mListener;
+    private FragmentInterface mListener;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
     private ArrayList<Sale> mCurrentSales;
@@ -90,11 +91,11 @@ public class CurrentSalesFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnCurrentSalesClickListener) {
-            mListener = (OnCurrentSalesClickListener) context;
+        if (context instanceof FragmentInterface) {
+            mListener = (FragmentInterface) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + "Must implement OnCurrentSalesClickListener");
+                    + "Must implement FragmentInterface");
         }
     }
 
@@ -104,7 +105,7 @@ public class CurrentSalesFragment extends Fragment {
         mListener = null;
 
     }
-
+/*
     public interface OnCurrentSalesClickListener {
         void onCurrentSaleClicked(Sale sale);
 
@@ -112,4 +113,5 @@ public class CurrentSalesFragment extends Fragment {
 
         void onFragmentStart(boolean showHomAsUp);
     }
+    */
 }

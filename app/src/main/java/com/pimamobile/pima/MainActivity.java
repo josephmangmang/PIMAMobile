@@ -26,11 +26,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.pimamobile.pima.activities.ItemsActivity;
 import com.pimamobile.pima.fragments.ChargeFragment;
@@ -38,12 +36,11 @@ import com.pimamobile.pima.fragments.CurrentSalesDiscountFragment;
 import com.pimamobile.pima.fragments.CurrentSalesFragment;
 import com.pimamobile.pima.fragments.EditCurrentSalesItem;
 import com.pimamobile.pima.fragments.HomeFragment;
-import com.pimamobile.pima.fragments.ItemLibraryFragment;
-import com.pimamobile.pima.fragments.KeypadFragment;
 import com.pimamobile.pima.models.Discount;
 import com.pimamobile.pima.models.Item;
 import com.pimamobile.pima.models.Sale;
 import com.pimamobile.pima.utils.Calculator;
+import com.pimamobile.pima.utils.FragmentInterface;
 import com.pimamobile.pima.utils.ToastMessage;
 
 import org.json.JSONArray;
@@ -61,9 +58,7 @@ import java.util.Map;
  This is the MainActivity that extends AppCompatActivity class.
  The starting point of the app, mao ni ang tawgon every time we open the app.
 */
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        ItemLibraryFragment.OnLibraryItemClickListener, CurrentSalesFragment.OnCurrentSalesClickListener, EditCurrentSalesItem.OnEditCurrentSalesItemInteraction,
-        CurrentSalesDiscountFragment.OnCurrentDiscountsClick, HomeFragment.OnHomeFragmentInteraction, ChargeFragment.OnChargeFragmentListener, KeypadFragment.OnKeypadFragmentInteraction {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentInterface{
 
     private static final String TAG = "MainActivity";
     public static final String KEY_CURRENT_SALES = "sales_data";
@@ -488,6 +483,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         calculateCurrentTotalSale(mCurrentSales);
     }
+
 
     private void addSalesToServer(final ArrayList<Sale> mCurrentSales, final String mCurrentSalesTotalAmount, final ArrayList<Discount> mCurrentSalesDiscounts) {
 

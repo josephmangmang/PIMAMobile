@@ -15,12 +15,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.pimamobile.pima.R;
+import com.pimamobile.pima.utils.FragmentInterface;
 import com.pimamobile.pima.utils.ToastMessage;
 
 public class KeypadFragment extends Fragment {
 
     private static final String TAG = "KeypadFragment";
-    private OnKeypadFragmentInteraction mListener;
+    private FragmentInterface mListener;
     private EditText mAddNote;
     private TextView mPrice;
     private TextView mKey1;
@@ -185,11 +186,11 @@ public class KeypadFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnKeypadFragmentInteraction) {
-            mListener = (OnKeypadFragmentInteraction) context;
+        if (context instanceof FragmentInterface) {
+            mListener = (FragmentInterface) context;
         } else {
             throw new RuntimeException(context.toString() +
-                    " must implement OnKeypadFragmentInteraction");
+                    " must implement FragmentInterface");
         }
     }
 
@@ -198,8 +199,9 @@ public class KeypadFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
+/*
     public interface OnKeypadFragmentInteraction {
         void onAddCustomItem(String note, String price);
     }
+    */
 }

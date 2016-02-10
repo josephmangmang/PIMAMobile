@@ -24,6 +24,7 @@ import com.pimamobile.pima.models.Discount;
 import com.pimamobile.pima.models.Group;
 import com.pimamobile.pima.models.Sale;
 import com.pimamobile.pima.utils.Calculator;
+import com.pimamobile.pima.utils.FragmentInterface;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class ChargeFragment extends Fragment {
     private View mConfirmSummaryContainer;
     public TextView mDoneTitle;
     public TextView mDoneSubtitle;
-    private OnChargeFragmentListener mListener;
+    private FragmentInterface mListener;
 
     public static ChargeFragment newInstance(Bundle bundle) {
         ChargeFragment fragment = new ChargeFragment();
@@ -106,11 +107,11 @@ public class ChargeFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnChargeFragmentListener) {
-            mListener = (OnChargeFragmentListener) context;
+        if (context instanceof FragmentInterface) {
+            mListener = (FragmentInterface) context;
         } else {
             throw new RuntimeException(context.toString() +
-                    "must implement OnChargeFragmentListener");
+                    "must implement FragmentInterface");
         }
     }
 
@@ -137,13 +138,13 @@ public class ChargeFragment extends Fragment {
             mListener.onNewSaleClicked();
         }
     };
-
+/*
     public interface OnChargeFragmentListener {
         void onChargeConfirmClicked(String amountRecieved);
 
         void onNewSaleClicked();
     }
-
+*/
     public class ExpandableListAdapter extends BaseExpandableListAdapter {
         private List<Group> mGroups;
         private Context mContext;

@@ -19,6 +19,7 @@ import com.pimamobile.pima.MainActivity;
 import com.pimamobile.pima.R;
 import com.pimamobile.pima.models.Discount;
 import com.pimamobile.pima.models.Sale;
+import com.pimamobile.pima.utils.FragmentInterface;
 
 public class EditCurrentSalesItem extends Fragment {
 
@@ -30,7 +31,7 @@ public class EditCurrentSalesItem extends Fragment {
     private Button mQuantityDeleteItem;
     private RecyclerView mRecyclerView;
     private Sale mCurrentSalesItem;
-    private OnEditCurrentSalesItemInteraction mListener;
+    private FragmentInterface mListener;
     private int mItemQuantity;
     private String mItemNote;
 
@@ -77,11 +78,11 @@ public class EditCurrentSalesItem extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnEditCurrentSalesItemInteraction) {
-            mListener = (OnEditCurrentSalesItemInteraction) context;
+        if (context instanceof FragmentInterface) {
+            mListener = (FragmentInterface) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnEditCurrentSalesItemInteraction");
+                    + " must implement FragmentInterface");
         }
     }
 
@@ -129,7 +130,7 @@ public class EditCurrentSalesItem extends Fragment {
             }
         }
     };
-
+/*
     public interface OnEditCurrentSalesItemInteraction {
         void onEditDiscountClicked(Discount discount);
 
@@ -141,4 +142,5 @@ public class EditCurrentSalesItem extends Fragment {
 
         void updateCurrentItemNote(String note);
     }
+    */
 }
