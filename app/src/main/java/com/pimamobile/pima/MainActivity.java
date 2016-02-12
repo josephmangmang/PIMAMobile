@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -244,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         List<BigDecimal> totalItemAmount = new ArrayList<>();
         List<BigDecimal> totalItem = new ArrayList<>();
         for (int i = 0; i < sales.size(); i++) {
-            totalItemAmount.add(new BigDecimal(sales.get(i).getItemTotalAmount()));
+            totalItemAmount.add(new BigDecimal(sales.get(i).calculateItemTotalAmount()));
             totalItem.add(new BigDecimal(sales.get(i).getItemQuantity()));
         }
         mCurrentSalesTotalAmount = Calculator.addAllData(totalItemAmount).toString();
@@ -303,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onCurrentSaleClicked(Sale sale) {
-        String itemNameWithPrice = sale.getItemName() + " ₱" + sale.getItemTotalAmount();
+        String itemNameWithPrice = sale.getItemName() + " ₱" + sale.calculateItemTotalAmount();
         mCurrentItemPosition = sale.getId();
         Bundle itemData = new Bundle();
         itemData.putParcelable(KEY_SELECTED_SALES_ITEM_, sale);
@@ -327,11 +328,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onFragmentStart(boolean showHomAsUp) {
+    public void onFragmentStart(boolean showHomAsUp, boolean fromSaleActivity, String title) {
         Log.i(TAG, "onFragmentStart is " + showHomAsUp);
         if (showHomAsUp) {
             mDrawerToggle.setDrawerIndicatorEnabled(false);
-            mToolbarTitleVIew.setText("Total: ₱" + mCurrentSalesTotalAmount);
+            mToolbarTitleVIew.setText(fromSaleActivity ? "Total: ₱" + mCurrentSalesTotalAmount : title);
         } else {
             mDrawerToggle.setDrawerIndicatorEnabled(true);
             updateUI();
@@ -355,7 +356,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onEditQuantityButtonClicked(int newQuantity) {
         mCurrentSales.get(mCurrentItemPosition).setItemQuantity(newQuantity);
         mToolbarTitleVIew.setText(mCurrentSales.get(mCurrentItemPosition).getItemName()
-                + " ₱" + mCurrentSales.get(mCurrentItemPosition).getItemTotalAmount());
+                + " ₱" + mCurrentSales.get(mCurrentItemPosition).calculateItemTotalAmount());
         calculateCurrentTotalSale(mCurrentSales);
     }
 
@@ -411,7 +412,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .replace(R.id.fragment_container, ChargeFragment.newInstance(bundle), ChargeFragment.class.getName())
                     .addToBackStack(null).commit();
-            onFragmentStart(true);
+            onFragmentStart(true, true, null);
         } else {
             ToastMessage.message(this, "Charge amount should be greater than Zero(0).");
         }
@@ -461,7 +462,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
         mTransactionIsOnGoing = false;
-        onFragmentStart(false);
+        onFragmentStart(false, true, null);
         calculateCurrentTotalSale(mCurrentSales);
     }
 
@@ -564,7 +565,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         return params;
                     }
                 };
+                jsonObjectRequest.setRetryPolicy(new RetryPolicy() {
+                    @Override
+                    public int getCurrentTimeout() {
+                        return 50000;
+                    }
 
+                    @Override
+                    public int getCurrentRetryCount() {
+                        return 5;
+                    }
+
+                    @Override
+                    public void retry(VolleyError error) throws VolleyError {
+
+                    }
+                });
                 // Add request to our queue
                 PimaApplication.getmInstance().addToReqQueue(jsonObjectRequest, REQUEST_TAG);
             }

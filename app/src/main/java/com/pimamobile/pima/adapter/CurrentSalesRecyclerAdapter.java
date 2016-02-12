@@ -62,7 +62,7 @@ public class CurrentSalesRecyclerAdapter extends RecyclerView.Adapter<CurrentSal
             }
         } else {
             holder.itemName.setText(mSales.get(position).getItemName());
-            holder.itemAmount.setText("₱" + mSales.get(position).getItemTotalAmount());
+            holder.itemAmount.setText("₱" + mSales.get(position).calculateItemTotalAmount());
             holder.itemNote.setText(mSales.get(position).getItemNote());
             int itemQuantity = mSales.get(position).getItemQuantity();
             holder.itemQuantity.setText("x" + itemQuantity);

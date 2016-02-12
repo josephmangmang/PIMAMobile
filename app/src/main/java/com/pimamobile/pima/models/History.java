@@ -14,6 +14,7 @@ public class History {
     private String totalAmount = "0";
     private long timeStamp;
     private String totalDiscount = "0";
+    private String receiptNumber;
 
     public History() {
     }
@@ -22,6 +23,13 @@ public class History {
         this.sales = mSales;
         this.discounts = mDiscounts;
         this.timeStamp = timeStamp;
+    }
+
+    public History(List<Sale> mSales, List<Discount> mDiscounts, long timeStamp, String receiptNumber) {
+        this.sales = mSales;
+        this.discounts = mDiscounts;
+        this.timeStamp = timeStamp;
+        this.receiptNumber = receiptNumber;
     }
 
     public List<Sale> getSales() {
@@ -40,11 +48,19 @@ public class History {
         this.discounts = discounts;
     }
 
+    public void setTotalAmount(String totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
     public String getTotalAmount() {
+        return totalAmount;
+    }
+
+    public String getCalculateTotalAmount() {
         List<BigDecimal> totalItemAmount = new ArrayList<>();
         List<BigDecimal> totalItem = new ArrayList<>();
         for (int i = 0; i < sales.size(); i++) {
-            totalItemAmount.add(new BigDecimal(sales.get(i).getItemTotalAmount()));
+            totalItemAmount.add(new BigDecimal(sales.get(i).calculateItemTotalAmount()));
             totalItem.add(new BigDecimal(sales.get(i).getItemQuantity()));
         }
         totalAmount = Calculator.addAllData(totalItemAmount).toString();
@@ -87,8 +103,18 @@ public class History {
             }
             builder.append(", ");
         }
-        builder.append("and ");
-        builder.append(sales.get(sales.size() - 1).getItemName());
+        if (sales.size() > 1) {
+            builder.append("and ");
+            builder.append(sales.get(sales.size() - 1).getItemName());
+        }
         return builder.toString();
+    }
+
+    public String getReceiptNumber() {
+        return receiptNumber;
+    }
+
+    public void setReceiptNumber(String receiptNumber) {
+        this.receiptNumber = receiptNumber;
     }
 }

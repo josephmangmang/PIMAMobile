@@ -73,6 +73,14 @@ public class Sale implements Parcelable {
     }
 
     public String getItemTotalAmount() {
+        return itemTotalAmount;
+    }
+
+    public void setItemTotalAmount(String itemTotalAmount) {
+        this.itemTotalAmount = itemTotalAmount;
+    }
+
+    public String calculateItemTotalAmount() {
         Calculator calculator = new Calculator(new BigDecimal(itemPrice), new BigDecimal(itemQuantity));
         /*
         BigDecimal tempAmount = new BigDecimal(BigInteger.ZERO);
@@ -133,7 +141,7 @@ public class Sale implements Parcelable {
             object.put(SALES_ITEM_PRICE, itemPrice);
             object.put(SALES_ITEM_QUANTITY, itemQuantity);
             object.put(SALES_ITEM_NOTE, itemNote);
-            object.put(SALES_ITEM_TOTAL_AMOUNT, getItemTotalAmount());
+            object.put(SALES_ITEM_TOTAL_AMOUNT, calculateItemTotalAmount());
         } catch (JSONException e) {
             e.printStackTrace();
 

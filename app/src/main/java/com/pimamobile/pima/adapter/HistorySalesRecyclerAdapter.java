@@ -74,7 +74,7 @@ public class HistorySalesRecyclerAdapter extends RecyclerView.Adapter {
         if (holder instanceof HistoryItemViewHolder) {
             final HistoryItemViewHolder historyHolder = (HistoryItemViewHolder) holder;
             historyHolder.mHistory = mHistories.get(position);
-            historyHolder.mAmount.setText(mHistories.get(position).getTotalAmount());
+            historyHolder.mAmount.setText("₱"+mHistories.get(position).getTotalAmount());
             historyHolder.mItems.setText(mHistories.get(position).appendAllItem());
             historyHolder.mTime.setText(mHistories.get(position).formatTimeStamp("h:mm a"));
             historyHolder.mView.setOnClickListener(new View.OnClickListener() {

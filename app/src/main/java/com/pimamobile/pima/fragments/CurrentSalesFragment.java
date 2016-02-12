@@ -65,7 +65,7 @@ public class CurrentSalesFragment extends Fragment {
     public void onResume() {
         super.onResume();
         MainActivity.mIsHome = false;
-        mListener.onFragmentStart(true);
+        mListener.onFragmentStart(true, true, null);
         new LoadSalesData().execute(mCurrentSales);
 
     }

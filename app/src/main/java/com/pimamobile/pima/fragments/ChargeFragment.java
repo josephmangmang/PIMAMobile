@@ -229,7 +229,7 @@ public class ChargeFragment extends Fragment {
                     name.setText(sale.getItemName());
                     quantity.setVisibility(sale.getItemQuantity() > 1 ? View.VISIBLE : View.GONE);
                     quantity.setText("x" + sale.getItemQuantity());
-                    amount.setText("₱" + sale.getItemTotalAmount());
+                    amount.setText("₱" + sale.calculateItemTotalAmount());
                     note.setText(sale.getItemNote());
                 }
             }

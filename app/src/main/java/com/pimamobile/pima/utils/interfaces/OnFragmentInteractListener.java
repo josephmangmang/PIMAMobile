@@ -11,7 +11,7 @@ public interface OnFragmentInteractListener {
     void onLibraryItemClickListener(Discount discount);
     void onCurrentSaleClicked(Sale sale);
     void onCurrentSaleAllDiscountsClick();
-    void onFragmentStart(boolean showHomAsUp);
+    void onFragmentStart(boolean showHomAsUp, boolean fromSaleActivity, String title);
     void onEditDiscountClicked(Discount discount);
     void onEditCurrentSalesItemDistroy();
     void onEditQuantityButtonClicked(int newQuantity);

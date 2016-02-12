@@ -6,11 +6,21 @@
     android:layout_marginBottom="16dp"
     android:background="@drawable/selector_row">
 
+    <ImageView
+        android:id="@+id/history_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/ic_menu_gallery" />
+
     <LinearLayout
         android:id="@+id/amount_and_time_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/next_image"
+        android:layout_toRightOf="@+id/history_icon"
         android:orientation="horizontal">
 
         <com.pimamobile.pima.utils.RobotoTextView
@@ -38,6 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/amount_and_time_container"
         android:layout_toLeftOf="@+id/next_image"
+        android:layout_toRightOf="@+id/history_icon"
         android:ellipsize="end"
         android:maxLines="1"
         android:singleLine="true"

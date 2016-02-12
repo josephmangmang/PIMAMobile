@@ -9,4 +9,7 @@
     <color name="deleteButtonRed">#df2e2e</color>
     <color name="keypad_clicked_color">#34e6e6e6</color>
     <color name="list_selector_color">#c2afafaf</color>
+    <color name="refresh_progress1">#e91e63</color>
+    <color name="refresh_progress2">#00b0ff</color>
+    <color name="refresh_progress3">#FF26C6DA</color>
 </resources>

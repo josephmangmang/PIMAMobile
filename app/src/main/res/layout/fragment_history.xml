@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/white">
+
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
@@ -23,5 +23,34 @@
             tools:listitem="@layout/history_sales_item">
 
         </android.support.v7.widget.RecyclerView>
+
     </android.support.v4.widget.SwipeRefreshLayout>
-</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/history_error_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.pimamobile.pima.utils.RobotoTextView
+            android:id="@+id/history_error_title"
+            style="@style/AppTheme.RobotoTextLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Connection Error"
+            app:typeface="roboto_black" />
+
+        <com.pimamobile.pima.utils.RobotoTextView
+            style="@style/AppTheme.RobotoTextLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/history_error_title"
+            android:text="@string/history_error"
+            app:typeface="roboto_regular" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
