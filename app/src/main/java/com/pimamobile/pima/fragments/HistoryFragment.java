@@ -2,7 +2,9 @@ package com.pimamobile.pima.fragments;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -23,6 +25,7 @@ import com.pimamobile.pima.LoginActivity;
 import com.pimamobile.pima.MainActivity;
 import com.pimamobile.pima.PimaApplication;
 import com.pimamobile.pima.R;
+import com.pimamobile.pima.activities.SettingActivity;
 import com.pimamobile.pima.adapter.HistorySalesRecyclerAdapter;
 import com.pimamobile.pima.adapter.SectionedRecyclerViewAdapter;
 import com.pimamobile.pima.models.Discount;
@@ -54,15 +57,14 @@ public class HistoryFragment extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private List<History> mHistories = new ArrayList<>();
     private View mErrorContainer;
-
     private int loadLimit = 15;
     private int lastItemPosition = 0;
-    private int userId = 1;
     private boolean noMoreHistory = false;
     private SectionedRecyclerViewAdapter.Section[] mDateSections;
     private SectionedRecyclerViewAdapter mSectionedAdapter;
     private List<SectionedRecyclerViewAdapter.Section> sections = new ArrayList<>();
     private String mPreviousDate = "";
+    private int USER_ID;
 
     public static HistoryFragment newInstance() {
         return new HistoryFragment();
@@ -70,6 +72,13 @@ public class HistoryFragment extends Fragment {
 
     public HistoryFragment() {
 
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        USER_ID = preferences.getInt(SettingActivity.KEY_USER_ID, -1);
     }
 
     @Nullable
@@ -93,7 +102,6 @@ public class HistoryFragment extends Fragment {
                 Log.i(TAG, "Refreshing from onCreatView....");
             }
         });
-
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setHasFixedSize(true);
@@ -184,11 +192,11 @@ public class HistoryFragment extends Fragment {
                             sections.add(new SectionedRecyclerViewAdapter.Section(mHistories.size(), history.formatTimeStamp("EEEE, MMMM d, yyyy")));
 
                             mDateSections = new SectionedRecyclerViewAdapter.Section[sections.size()];
-                           // mSectionedAdapter = new SectionedRecyclerViewAdapter(getActivity(), R.layout.section, R.id.section_text, mAdapter);
+                            // mSectionedAdapter = new SectionedRecyclerViewAdapter(getActivity(), R.layout.section, R.id.section_text, mAdapter);
 
                             mSectionedAdapter.setSections(sections.toArray(mDateSections));
                             //mRecyclerView.setAdapter(mSectionedAdapter);
-                           // mAdapter.setOnLoadMoreListener(loadMoreListener);
+                            // mAdapter.setOnLoadMoreListener(loadMoreListener);
                         }
                         mHistories.add(history);
                         mPreviousDate = currentDate;
@@ -220,10 +228,10 @@ public class HistoryFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 lastItemPosition = mHistories.size();
-                Log.i(TAG, "getParams().. " + userId + " " + loadLimit + " " + lastItemPosition);
+                Log.i(TAG, "getParams().. " + USER_ID + " " + loadLimit + " " + lastItemPosition);
                 Map<String, String> params = new HashMap<>();
                 params.put("request", REQUEST_GET_SALES_HISTORY);
-                params.put("id", "" + userId);
+                params.put("id", "" + USER_ID);
                 params.put("load_limit", "" + loadLimit);
                 params.put("last_item", "" + lastItemPosition);
                 return params;
@@ -366,10 +374,10 @@ public class HistoryFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
 
-                Log.i(TAG, "getParams().. " + userId + " " + loadLimit + " " + lastItemPosition);
+                Log.i(TAG, "getParams().. " + USER_ID + " " + loadLimit + " " + lastItemPosition);
                 Map<String, String> params = new HashMap<>();
                 params.put("request", REQUEST_GET_SALES_HISTORY);
-                params.put("id", "" + userId);
+                params.put("id", "" + USER_ID);
                 params.put("load_limit", "" + loadLimit);
                 params.put("last_item", "0");
                 return params;

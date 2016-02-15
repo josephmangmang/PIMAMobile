@@ -75,5 +75,16 @@
     <string name="error_branch_name_has_space">Branch name should not contain any space. Replace with underscore.</string>
     <string name="history_error">Unable to download payments.</string>
     <string name="action_time_frame">Customize Sales Reports</string>
+    <string name="preference_login">Login</string>
+    <string name="preference_remember_title">Remember Login</string>
+    <string name="preference_remember_summary">Remember username and password.</string>
+    <string name="preference_credentials">User Profile</string>
+    <string name="preference_branch_name">Edit branch name</string>
+    <string name="preference_branch_name_summary">User branch name</string>
+    <string name="preference_branch_password">Edit branch password</string>
+    <string name="preference_branch_password_summary">Change branch password</string>
+    <string name="settings_label">Settings</string>
+    <string name="report_no_data">No transaction took place in the time frame you have selcted. Try selecting different time frame.</string>
+    <string name="report_no_data_title">No transactions for time period</string>
 
 </resources>

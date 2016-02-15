@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.pimamobile.pima.R;
+import com.pimamobile.pima.activities.SettingActivity;
 import com.pimamobile.pima.login.LoginFragment;
 import com.pimamobile.pima.login.LoginInterface;
 import com.pimamobile.pima.login.RegisterFragment;
@@ -21,13 +22,12 @@ import com.pimamobile.pima.login.RegisterFragment;
 public class LoginActivity extends AppCompatActivity implements LoginInterface {
 
     public static final String SERVER_URL = "http://www.pretextsms.com/pima/api.php";
-    public static final String REMEMBER_ME = "ehuppsi";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean mRememberMe = mPreferences.getBoolean(REMEMBER_ME, false);
+        boolean mRememberMe = mPreferences.getBoolean(SettingActivity.KEY_REMEMBER, false);
         if (mRememberMe) {
             startActivity(new Intent(this, MainActivity.class));
             finish();

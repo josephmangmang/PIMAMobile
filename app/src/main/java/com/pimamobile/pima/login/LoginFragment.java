@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.pimamobile.pima.LoginActivity;
 import com.pimamobile.pima.MainActivity;
 import com.pimamobile.pima.R;
+import com.pimamobile.pima.activities.SettingActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +39,7 @@ public class LoginFragment extends Fragment {
     private static final String LOGIN_USERNAME = "name";
     private static final String LOGIN_PASSWORD = "password";
     private static final String REQUEST = "request";
+    private static final String TAG = "LoginFragment";
     private EditText mUserName;
     private EditText mUserPassword;
     private Button mLoginButton;
@@ -50,7 +53,8 @@ public class LoginFragment extends Fragment {
     public static LoginFragment newInstance() {
         return new LoginFragment();
     }
-    public LoginFragment(){
+
+    public LoginFragment() {
 
     }
 
@@ -80,18 +84,23 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void onResponse(String response) {
                         boolean error = true;
+                        int id = -1;
                         showProgress(false);
+                        Log.i(TAG, "OnResponse: " + response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             error = jsonObject.getBoolean("error");
+                            id = jsonObject.getInt("id");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         if (error) {
                             showErrorMessage("Incorrect Branch Name or Password.");
                         } else {
-                            preferences.edit().putBoolean(LoginActivity.REMEMBER_ME, rememberMe).apply();
+                            preferences.edit().putBoolean(SettingActivity.KEY_REMEMBER, rememberMe).apply();
+                            preferences.edit().putInt(SettingActivity.KEY_USER_ID, id).apply();
                             startActivity(new Intent(getActivity(), MainActivity.class));
+                            getActivity().finish();
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -125,6 +134,7 @@ public class LoginFragment extends Fragment {
         mUserPassword.setEnabled(!show);
         mRememberMe.setEnabled(!show);
     }
+
     private View.OnClickListener createBranchListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

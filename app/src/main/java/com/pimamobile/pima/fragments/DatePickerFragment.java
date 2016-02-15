@@ -1,6 +1,7 @@
 package com.pimamobile.pima.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pimamobile.pima.R;
+import com.pimamobile.pima.utils.interfaces.OnFragmentInteractListener;
 import com.squareup.timessquare.CalendarPickerView;
 
 import java.text.SimpleDateFormat;
@@ -20,6 +22,8 @@ import java.util.List;
 public class DatePickerFragment extends Fragment {
 
     private CalendarPickerView calendar;
+    private OnDatePickerChangeListener mOnDatePickerChangeListener;
+    private OnFragmentInteractListener mListener;
 
     public static DatePickerFragment newInstance() {
         return new DatePickerFragment();
@@ -43,16 +47,33 @@ public class DatePickerFragment extends Fragment {
 
         return view;
     }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof OnFragmentInteractListener){
+            mListener = (OnFragmentInteractListener) context;
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mListener.onFragmentStart(true, false, "Customize Range");
+    }
 
     @Override
     public void onDetach() {
         super.onDetach();
         List<Date> selectedDates = calendar.getSelectedDates();
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < selectedDates.size(); i++) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd");
-            builder.append(dateFormat.format(selectedDates.get(i)) + " \n");
-        }
-        Log.i("DatePicker", "Selected Dates: \n" + builder.toString());
+        if (mOnDatePickerChangeListener != null) mOnDatePickerChangeListener.onDatePickerChange(selectedDates);
+
+    }
+
+    public void setOnDatePickerListener(OnDatePickerChangeListener listener) {
+        mOnDatePickerChangeListener = listener;
+    }
+
+    public interface OnDatePickerChangeListener {
+        void onDatePickerChange(List<Date> dates);
     }
 }

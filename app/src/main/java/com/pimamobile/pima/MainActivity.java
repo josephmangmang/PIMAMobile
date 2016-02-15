@@ -32,10 +32,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.pimamobile.pima.activities.ItemsActivity;
+import com.pimamobile.pima.activities.SettingActivity;
 import com.pimamobile.pima.fragments.ChargeFragment;
 import com.pimamobile.pima.fragments.CurrentSalesDiscountFragment;
 import com.pimamobile.pima.fragments.CurrentSalesFragment;
-import com.pimamobile.pima.fragments.DatePickerFragment;
 import com.pimamobile.pima.fragments.EditCurrentSalesItem;
 import com.pimamobile.pima.fragments.HistoryFragment;
 import com.pimamobile.pima.fragments.HistoryItemViewFragment;
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String KEY_CURRENT_SALES_TOTAL_AMOUNT = "sales_total_amount";
     public static final String KEY_CURRENT_SALES_DISCOUNTS = "sales_discounts";
     public static final String KEY_CURRENT_SALES_TOTAL_DISCOUNT = "sales_total_discount";
-    public static final String KEY_USER_ID = "userliouu";
+    public static final String KEY_SELECTED_SALES_ITEM_ = "item_selected";
 
     private DrawerLayout mDrawer;
     private LinearLayout mCurrentSaleButton;
@@ -84,12 +84,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String mCurrentSalesTotalAmount = "0.00";
     private String mCurrentSalesTotalItems = "0";
     private ActionBarDrawerToggle mDrawerToggle;
-    public static final String KEY_SELECTED_SALES_ITEM_ = "item_selected";
     private int mCurrentItemPosition;
     public static boolean mIsHome = true;
     private boolean mTransactionIsOnGoing = false;
     private SharedPreferences mPreferences;
-    private int mUserId;
+    private int USER_ID;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mCurrentSalesCountView = (TextView) findViewById(R.id.toolbar_sales_count);
         mCurrentSaleButton.setOnClickListener(currentSalesButtonListener);
 
-        mUserId = mPreferences.getInt(KEY_USER_ID, -1);
+        USER_ID = mPreferences.getInt(SettingActivity.KEY_USER_ID, -1);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, HomeFragment.newInstance(), "home").commit();
 
@@ -189,12 +188,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             return true;
         }
-        if (item.getItemId() == R.id.action_time_frame) {
-            getSupportFragmentManager().beginTransaction()
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .replace(R.id.fragment_container, DatePickerFragment.newInstance())
-                    .addToBackStack(null).commit();
-        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -206,21 +200,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        } else if (id == R.id.nav_items) {
-            startActivity(new Intent(this, ItemsActivity.class));
+            if (!item.isChecked())
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         } else if (id == R.id.nav_history) {
-            getSupportFragmentManager().beginTransaction()
+            if (!item.isChecked()) getSupportFragmentManager().beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .replace(R.id.fragment_container, HistoryFragment.newInstance())
                     .addToBackStack(null).commit();
         } else if (id == R.id.nav_reports) {
-            getSupportFragmentManager().beginTransaction()
+            if (!item.isChecked()) getSupportFragmentManager().beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .replace(R.id.fragment_container, ReportFragment.newInstance())
                     .addToBackStack(null).commit();
+        } else if (id == R.id.nav_items) {
+            startActivity(new Intent(this, ItemsActivity.class));
         } else if (id == R.id.nav_settings) {
-
+            startActivity(new Intent(this, SettingActivity.class));
         }
         drawer.closeDrawer(GravityCompat.START);
 
@@ -557,7 +552,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             protected void onPostExecute(JSONArray[] jsonArrays) {
                 Log.i(TAG, "onPostExecute.. is called");
                 try {
-                    jsonObject.put("id", 1);
+                    jsonObject.put("id", USER_ID);
                     jsonObject.put("time", System.currentTimeMillis());
                     jsonObject.put("sales_total_amount", mCurrentSalesTotalAmount);
                     jsonObject.put("sold_items", jsonArrays[0]);
@@ -578,9 +573,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             VolleyLog.e(TAG, e);
                         }
                         if (error) {
-                            // TODO do something if we received error
+                            ToastMessage.message(MainActivity.this, "Failed sending data to server.");
                         } else {
                             // TODO if saving to server is successfull
+
                         }
                     }
                 }, new Response.ErrorListener() {

@@ -43,7 +43,13 @@
             android:parentActivityName=".activities.ItemsActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
-
+        <activity
+            android:name=".activities.SettingActivity"
+            android:configChanges="orientation|screenLayout|keyboard"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/settings_label"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

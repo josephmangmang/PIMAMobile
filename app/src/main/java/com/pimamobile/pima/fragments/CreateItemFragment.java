@@ -167,8 +167,12 @@ public class CreateItemFragment extends Fragment implements AdapterView.OnItemSe
         @Override
         public void onClick(View v) {
             String name = mItemName.getText().toString();
-            String price =  mItemPrice.getText().toString();
-            price = price.isEmpty() ? "0" : convertInputNumberToDecimal(price);
+            String price = mItemPrice.getText().toString();
+            if (price.contains("₱")) {
+                price = price.substring(1);
+            } else {
+                price = price.isEmpty() ? "0" : convertInputNumberToDecimal(price);
+            }
             boolean cancel = false;
             View focus = null;
             if (TextUtils.isEmpty(name)) {
@@ -210,40 +214,7 @@ public class CreateItemFragment extends Fragment implements AdapterView.OnItemSe
     };
     private String userInput = "";
 
-    /**
-     * private KeyListener priceKeyListener = new KeyListener() {
-     *
-     * @Override public int getInputType() {
-     * return 0;
-     * }
-     * @Override public boolean onKeyDown(View view, Editable text, int keyCode, KeyEvent event) {
-     * return false;
-     * }
-     * @Override public boolean onKeyUp(View view, Editable text, int keyCode, KeyEvent event) {
-     * short number = -1;
-     * if (keyCode > 6 && keyCode < 17) {
-     * number = (short) (keyCode - 7);
-     * userInput = userInput + number;
-     * addInputToTextView(userInput);
-     * } else if (keyCode == 67) {
-     * // backspace
-     * try {
-     * userInput = userInput.substring(0, userInput.length() - 1);
-     * addInputToTextView(userInput);
-     * } catch (StringIndexOutOfBoundsException e) {
-     * <p/>
-     * }
-     * }
-     * return true;
-     * }
-     * @Override public boolean onKeyOther(View view, Editable text, KeyEvent event) {
-     * return false;
-     * }
-     * @Override public void clearMetaKeyState(View view, Editable content, int states) {
-     * <p/>
-     * }
-     * };
-     */
+
     private String addInputToTextView(String userInput) {
         String price = "0.00";
         int length = userInput.length();
