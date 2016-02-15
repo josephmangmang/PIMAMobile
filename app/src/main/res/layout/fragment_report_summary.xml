@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_horizontal_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.pimamobile.pima.utils.RobotoTextView
+            style="@style/AppTheme.RobotoTextLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Feb 14, 2015"
+            app:typeface="roboto_bold" />
+
+        <com.pimamobile.pima.utils.RobotoTextView
+            style="@style/AppTheme.RobotoTextLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:text="P100.00"
+            app:typeface="roboto_black" />
+
+        <com.pimamobile.pima.utils.RobotoTextView
+            style="@style/AppTheme.RobotoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gross Sales"
+            app:typeface="roboto_regular" />
+
+        <com.pimamobile.pima.utils.RobotoTextView
+            style="@style/AppTheme.RobotoTextLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:text="2"
+            app:typeface="roboto_black" />
+
+        <com.pimamobile.pima.utils.RobotoTextView
+            style="@style/AppTheme.RobotoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sales"
+            app:typeface="roboto_regular" />
+
+        <com.pimamobile.pima.utils.RobotoTextView
+            style="@style/AppTheme.RobotoTextLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:text="P50.00"
+            app:typeface="roboto_black" />
+
+        <com.pimamobile.pima.utils.RobotoTextView
+            style="@style/AppTheme.RobotoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Average Sales"
+            app:typeface="roboto_regular" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:background="@color/grey" />
+
+        <com.pimamobile.pima.utils.RobotoTextView
+            style="@style/AppTheme.RobotoTextMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:text="SALES SUMMARY"
+            app:typeface="roboto_black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <com.pimamobile.pima.utils.RobotoTextView
+                style="@style/AppTheme.RobotoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Gross Sales"
+                app:typeface="roboto_bold" />
+
+            <com.pimamobile.pima.utils.RobotoTextView
+                style="@style/AppTheme.RobotoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="P42.00"
+                app:typeface="roboto_bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <com.pimamobile.pima.utils.RobotoTextView
+                style="@style/AppTheme.RobotoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Discounts"
+                app:typeface="roboto_bold" />
+
+            <com.pimamobile.pima.utils.RobotoTextView
+                style="@style/AppTheme.RobotoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="P42.00"
+                app:typeface="roboto_bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <com.pimamobile.pima.utils.RobotoTextView
+                style="@style/AppTheme.RobotoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Net Sales"
+                app:typeface="roboto_bold" />
+
+            <com.pimamobile.pima.utils.RobotoTextView
+                style="@style/AppTheme.RobotoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="P42.00"
+                app:typeface="roboto_bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <com.pimamobile.pima.utils.RobotoTextView
+                style="@style/AppTheme.RobotoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Net Total"
+                app:typeface="roboto_bold" />
+
+            <com.pimamobile.pima.utils.RobotoTextView
+                style="@style/AppTheme.RobotoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="P42.00"
+                app:typeface="roboto_bold" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:background="@color/grey" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <com.pimamobile.pima.utils.RobotoTextView
+                style="@style/AppTheme.RobotoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="CATEGORY SALES"
+                app:typeface="roboto_black" />
+
+            <com.pimamobile.pima.utils.RobotoTextView
+                style="@style/AppTheme.RobotoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GROSS SALES"
+                app:typeface="roboto_black" />
+
+        </LinearLayout>
+
+        <ExpandableListView
+            android:id="@+id/expandable_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ExpandableListView>
+    </LinearLayout>
+
+</ScrollView>

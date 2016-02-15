@@ -22,7 +22,7 @@ public class Sale implements Parcelable {
     private static final String SALES_ITEM_QUANTITY = "item_quantity";
     private int id;
     private String itemName;
-    private String itemPrice;
+    private String itemPrice ;
     private String itemTotalAmount;
     private String itemNote;
     private List<Discount> discounts = new ArrayList<>();
@@ -93,7 +93,13 @@ public class Sale implements Parcelable {
         return calculator.getProduct().toString();
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getItemNote() {
         return itemNote;
     }
@@ -185,11 +191,5 @@ public class Sale implements Parcelable {
         dest.writeList(discounts);
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 }

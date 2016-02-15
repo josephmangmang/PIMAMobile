@@ -47,6 +47,7 @@ public class CurrentSalesFragment extends Fragment {
         if (getArguments() != null) {
             Log.i(TAG, "getArguments != null");
             mCurrentSales = getArguments().getParcelableArrayList(MainActivity.KEY_CURRENT_SALES);
+            mCurrentSales.add(new Sale(true, "", "0"));
             totalDiscount = getArguments().getString(MainActivity.KEY_CURRENT_SALES_TOTAL_DISCOUNT);
             Log.i(TAG, "Total Discount: " + totalDiscount);
         }
@@ -80,7 +81,7 @@ public class CurrentSalesFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<Sale> sales) {
-            CurrentSalesRecyclerAdapter adapter = new CurrentSalesRecyclerAdapter(getActivity(),sales, mListener);
+            CurrentSalesRecyclerAdapter adapter = new CurrentSalesRecyclerAdapter(getActivity(), sales, mListener);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             mRecyclerView.setAdapter(adapter);
             mProgressBar.setVisibility(View.GONE);

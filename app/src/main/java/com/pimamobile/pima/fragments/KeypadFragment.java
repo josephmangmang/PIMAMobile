@@ -147,17 +147,12 @@ public class KeypadFragment extends Fragment {
         @Override
         public void onClick(View v) {
             String price = mPrice.getText().toString().substring(1);
-            String noteName = mAddNote.getText().toString();
             boolean cancel = false;
             View focus = null;
             if (Double.parseDouble(price) == 0) {
                 ToastMessage.message(v.getContext(), "Your price is zero(0)");
                 cancel = true;
                 focus = mPrice;
-            } else if (TextUtils.isEmpty(noteName)) {
-                mAddNote.setError(getString(R.string.error_field_empty));
-                cancel = true;
-                focus = mAddNote;
             }
 
             if (cancel) {

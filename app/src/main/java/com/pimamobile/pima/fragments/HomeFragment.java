@@ -83,6 +83,7 @@ public class HomeFragment extends Fragment {
         super.onResume();
         ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         MainActivity.mIsHome = true;
+        mListener.onHomeResume(true);
         mListener.onFragmentStart(false, true, null);
     }
     /*

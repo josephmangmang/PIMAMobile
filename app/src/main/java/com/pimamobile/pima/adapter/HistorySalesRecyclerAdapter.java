@@ -17,7 +17,7 @@ import com.pimamobile.pima.utils.interfaces.OnLoadMoreListener;
 import java.util.List;
 
 public class HistorySalesRecyclerAdapter extends RecyclerView.Adapter {
-    private static final String TAG = "HistorySalesRecycler";
+      private static final String TAG = "HistorySalesRecycler";
     private List<History> mHistories;
     private OnFragmentInteractListener mListener;
     private OnLoadMoreListener onLoadMoreListener;
@@ -96,6 +96,7 @@ public class HistorySalesRecyclerAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
+
 
         return mHistories.get(position) != null ? VIEW_ITEM : VIEW_PROG;
     }

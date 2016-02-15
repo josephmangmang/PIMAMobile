@@ -3,7 +3,6 @@ package com.pimamobile.pima.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -25,9 +24,11 @@ import com.pimamobile.pima.MainActivity;
 import com.pimamobile.pima.PimaApplication;
 import com.pimamobile.pima.R;
 import com.pimamobile.pima.adapter.HistorySalesRecyclerAdapter;
+import com.pimamobile.pima.adapter.SectionedRecyclerViewAdapter;
 import com.pimamobile.pima.models.Discount;
 import com.pimamobile.pima.models.History;
 import com.pimamobile.pima.models.Sale;
+import com.pimamobile.pima.utils.DividerItemDecoration;
 import com.pimamobile.pima.utils.ToastMessage;
 import com.pimamobile.pima.utils.interfaces.OnFragmentInteractListener;
 import com.pimamobile.pima.utils.interfaces.OnLoadMoreListener;
@@ -46,6 +47,7 @@ public class HistoryFragment extends Fragment {
     private static final String TAG = "HistoryFragment";
     private static final String TAG_GET_SALES_HISTORY = "get_sales_history";
     private static final String REQUEST_GET_SALES_HISTORY = "GET_SALES_HISTORY";
+    public static final String KEY_HISTORY = "history";
     private OnFragmentInteractListener mListener;
     private RecyclerView mRecyclerView;
     private HistorySalesRecyclerAdapter mAdapter;
@@ -57,6 +59,10 @@ public class HistoryFragment extends Fragment {
     private int lastItemPosition = 0;
     private int userId = 1;
     private boolean noMoreHistory = false;
+    private SectionedRecyclerViewAdapter.Section[] mDateSections;
+    private SectionedRecyclerViewAdapter mSectionedAdapter;
+    private List<SectionedRecyclerViewAdapter.Section> sections = new ArrayList<>();
+    private String mPreviousDate = "";
 
     public static HistoryFragment newInstance() {
         return new HistoryFragment();
@@ -88,56 +94,45 @@ public class HistoryFragment extends Fragment {
             }
         });
 
-        getHistoryData();
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-
-
+        mRecyclerView.addItemDecoration((new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL)));
         return view;
     }
-
 
     private SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            mSwipeRefreshLayout.setRefreshing(true);
+            mSwipeRefreshLayout.setRefreshing(false);
             Log.i(TAG, "onRefresh .......");
+            /*
             mHistories.clear();
+            sections.clear();
+            mDateSections = null;
             getHistoryData();
+            */
         }
     };
+
     private OnLoadMoreListener loadMoreListener = new OnLoadMoreListener() {
 
         @Override
         public void onLoadMore() {
             if (!noMoreHistory) {
                 addMoreHistoryData();
+            } else {
+                ToastMessage.message(getActivity(), "No more History...");
             }
-            /*
-            // remove progress item
-            mHistories.remove(mHistories.size() - 1);
-            mAdapter.notifyItemRemoved(mHistories.size());
-            // add items one by one.. dummy
-            int start = mHistories.size();
-            int end = start + 20;
-            List<Discount> mDiscounts = new ArrayList<>();
-            List<Sale> mSales = new ArrayList<>();
 
-            for (int i = 0; i < 5; i++) {
-                mSales.add(new Sale("ItemName " + i, "" + 5 + 1, i));
-            }
-            for (int i = start + 1; i <= end; i++) {
-                mHistories.add(new History(mSales, mDiscounts, System.currentTimeMillis()));
-                mAdapter.notifyItemInserted(mHistories.size());
-            }
-            mAdapter.setLoaded();
-            // or you can add all at once but do not forget to call mAdapter.notifyDataSetChanged();
-            */
         }
     };
 
     private void addMoreHistoryData() {
+        mHistories.add(null);
+        mAdapter.notifyItemInserted(mHistories.size());
+
         mErrorContainer.setVisibility(View.GONE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
                 LoginActivity.SERVER_URL, new Response.Listener<String>() {
@@ -150,7 +145,6 @@ public class HistoryFragment extends Fragment {
                     error = jsonObject.getBoolean("error");
                     noMoreHistory = jsonObject.getBoolean("noMoreHistory");
                     JSONArray jsonHistories = jsonObject.getJSONArray("histories");
-
                     mHistories.remove(mHistories.size() - 1);
                     mAdapter.notifyItemRemoved(mHistories.size());
                     for (int i = 0; i < jsonHistories.length(); i++) {
@@ -160,6 +154,7 @@ public class HistoryFragment extends Fragment {
                         history.setReceiptNumber(jsonHistory.getString("sales_receipt_number"));
                         history.setTimeStamp(jsonHistory.getLong("sales_timestamp"));
                         history.setTotalAmount(jsonHistory.getString("sales_total_amount"));
+                        String currentDate = history.formatTimeStamp("EEEE, MMMM d, yyyy");
 
                         JSONArray sold_itemsJsonArray = jsonHistory.getJSONArray("sold_items");
                         List<Sale> sales = new ArrayList<>();
@@ -182,7 +177,21 @@ public class HistoryFragment extends Fragment {
                             discounts.add(discount);
                         }
                         history.setDiscounts(discounts);
+
+                        if (!currentDate.equals(mPreviousDate)) {
+                            //Sections
+                            Log.i(TAG, "Load more... (!currentDate.equals(mPreviousDate))");
+                            sections.add(new SectionedRecyclerViewAdapter.Section(mHistories.size(), history.formatTimeStamp("EEEE, MMMM d, yyyy")));
+
+                            mDateSections = new SectionedRecyclerViewAdapter.Section[sections.size()];
+                           // mSectionedAdapter = new SectionedRecyclerViewAdapter(getActivity(), R.layout.section, R.id.section_text, mAdapter);
+
+                            mSectionedAdapter.setSections(sections.toArray(mDateSections));
+                            //mRecyclerView.setAdapter(mSectionedAdapter);
+                           // mAdapter.setOnLoadMoreListener(loadMoreListener);
+                        }
                         mHistories.add(history);
+                        mPreviousDate = currentDate;
                     }
                 } catch (JSONException e) {
                     ToastMessage.message(getActivity(), "Error getting parsing history data.");
@@ -259,8 +268,10 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        getHistoryData();
         MainActivity.mIsHome = false;
-        mListener.onFragmentStart(true, false, "Sales History");
+        mListener.onFragmentStart(false, false, "Sales History");
     }
 
     private void getHistoryData() {
@@ -270,8 +281,10 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onResponse(String response) {
                 boolean error = true;
+
                 Log.i(TAG, "onResponse: " + response.toString());
                 try {
+
                     JSONObject jsonObject = new JSONObject(response);
                     error = jsonObject.getBoolean("error");
                     noMoreHistory = jsonObject.getBoolean("noMoreHistory");
@@ -281,9 +294,9 @@ public class HistoryFragment extends Fragment {
                     for (int i = 0; i < jsonHistories.length(); i++) {
                         JSONObject jsonHistory = jsonHistories.getJSONObject(i);
                         History history = new History();
-
                         history.setReceiptNumber(jsonHistory.getString("sales_receipt_number"));
                         history.setTimeStamp(jsonHistory.getLong("sales_timestamp"));
+                        String currentDate = history.formatTimeStamp("EEEE, MMMM d, yyyy");
                         history.setTotalAmount(jsonHistory.getString("sales_total_amount"));
 
                         JSONArray sold_itemsJsonArray = jsonHistory.getJSONArray("sold_items");
@@ -307,20 +320,36 @@ public class HistoryFragment extends Fragment {
                             discounts.add(discount);
                         }
                         history.setDiscounts(discounts);
+                        if (!currentDate.equals(mPreviousDate)) {
+                            //Sections
+                            sections.add(new SectionedRecyclerViewAdapter.Section(mHistories.size(), history.formatTimeStamp("EEEE, MMMM d, yyyy")));
+                        }
                         mHistories.add(history);
+                        mPreviousDate = currentDate;
                     }
                 } catch (JSONException e) {
                     ToastMessage.message(getActivity(), "Error getting parsing history data.");
                     e.printStackTrace();
                 }
+
                 if (error) {
                     Log.i(TAG, "result error = true");
                     ToastMessage.message(getActivity(), "Error getting history data.");
                 } else {
                     Log.i(TAG, "result error = false");
-                    mAdapter = new HistorySalesRecyclerAdapter(mHistories, mRecyclerView, mListener);
-                    mRecyclerView.setAdapter(mAdapter);
-                    mAdapter.setOnLoadMoreListener(loadMoreListener);
+                    if (mAdapter != null) {
+                        mAdapter.notifyDataSetChanged();
+                        mSectionedAdapter.notifyDataSetChanged();
+                        mAdapter.setLoaded();
+                    } else {
+                        mAdapter = new HistorySalesRecyclerAdapter(mHistories, mRecyclerView, mListener);
+                        mDateSections = new SectionedRecyclerViewAdapter.Section[sections.size()];
+                        mSectionedAdapter = new SectionedRecyclerViewAdapter(getActivity(), R.layout.section, R.id.section_text, mAdapter);
+
+                        mSectionedAdapter.setSections(sections.toArray(mDateSections));
+                        mRecyclerView.setAdapter(mSectionedAdapter);
+                        mAdapter.setOnLoadMoreListener(loadMoreListener);
+                    }
                 }
                 Log.i(TAG, mHistories.size() + " List Item size: " + mRecyclerView.getChildCount());
                 mSwipeRefreshLayout.setRefreshing(false);

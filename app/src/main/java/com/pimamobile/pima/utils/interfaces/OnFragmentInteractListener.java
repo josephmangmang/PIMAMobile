@@ -23,4 +23,6 @@ public interface OnFragmentInteractListener {
     void onNewSaleClicked();
     void onAddCustomItem(String note, String price);
     void onHistoryItemClicked(History history);
+
+    void onHomeResume(boolean resumed);
 }

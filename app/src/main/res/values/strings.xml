@@ -74,5 +74,6 @@
     <string name="connection_error">Connection interrupted. Check you internet connection.</string>
     <string name="error_branch_name_has_space">Branch name should not contain any space. Replace with underscore.</string>
     <string name="history_error">Unable to download payments.</string>
+    <string name="action_time_frame">Customize Sales Reports</string>
 
 </resources>

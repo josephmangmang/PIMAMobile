@@ -1,66 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
-    android:background="@drawable/selector_row">
+    android:layout_marginBottom="5dp">
 
-    <ImageView
-        android:id="@+id/history_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="16dp"
-        android:layout_alignParentLeft="true"
-        android:src="@drawable/ic_menu_gallery" />
-
-    <LinearLayout
-        android:id="@+id/amount_and_time_container"
+    <RelativeLayout
+        android:background="@drawable/selector_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/next_image"
-        android:layout_toRightOf="@+id/history_icon"
-        android:orientation="horizontal">
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp">
 
-        <com.pimamobile.pima.utils.RobotoTextView
-            android:id="@+id/history_sales_amount"
-            style="@style/AppTheme.RobotoText"
+        <ImageView
+            android:id="@+id/history_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="P100"
-            app:typeface="roboto_black" />
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_menu_gallery" />
+
+        <LinearLayout
+            android:id="@+id/amount_and_time_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/next_image"
+            android:layout_toRightOf="@+id/history_icon"
+            android:orientation="horizontal">
+
+            <com.pimamobile.pima.utils.RobotoTextView
+                android:id="@+id/history_sales_amount"
+                style="@style/AppTheme.RobotoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="P100"
+                app:typeface="roboto_black" />
+
+            <com.pimamobile.pima.utils.RobotoTextView
+                android:id="@+id/history_sales_time"
+                style="@style/AppTheme.RobotoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2:44PM"
+                app:typeface="roboto_regular" />
+        </LinearLayout>
 
         <com.pimamobile.pima.utils.RobotoTextView
-            android:id="@+id/history_sales_time"
+            android:id="@+id/history_sales_items"
             style="@style/AppTheme.RobotoText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="2:44PM"
+            android:layout_below="@+id/amount_and_time_container"
+            android:layout_toLeftOf="@+id/next_image"
+            android:layout_toRightOf="@+id/history_icon"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="Banana"
             app:typeface="roboto_regular" />
-    </LinearLayout>
 
-    <com.pimamobile.pima.utils.RobotoTextView
-        android:id="@+id/history_sales_items"
-        style="@style/AppTheme.RobotoText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/amount_and_time_container"
-        android:layout_toLeftOf="@+id/next_image"
-        android:layout_toRightOf="@+id/history_icon"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:text="Banana"
-        app:typeface="roboto_regular" />
+        <ImageView
+            android:id="@+id/next_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:src="@drawable/ic_menu_camera" />
 
-    <ImageView
-        android:id="@+id/next_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="16dp"
-        android:src="@drawable/ic_menu_camera" />
-</RelativeLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

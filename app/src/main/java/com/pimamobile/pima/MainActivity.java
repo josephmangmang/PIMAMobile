@@ -35,9 +35,12 @@ import com.pimamobile.pima.activities.ItemsActivity;
 import com.pimamobile.pima.fragments.ChargeFragment;
 import com.pimamobile.pima.fragments.CurrentSalesDiscountFragment;
 import com.pimamobile.pima.fragments.CurrentSalesFragment;
+import com.pimamobile.pima.fragments.DatePickerFragment;
 import com.pimamobile.pima.fragments.EditCurrentSalesItem;
 import com.pimamobile.pima.fragments.HistoryFragment;
+import com.pimamobile.pima.fragments.HistoryItemViewFragment;
 import com.pimamobile.pima.fragments.HomeFragment;
+import com.pimamobile.pima.fragments.ReportFragment;
 import com.pimamobile.pima.models.Discount;
 import com.pimamobile.pima.models.History;
 import com.pimamobile.pima.models.Item;
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView mCurrentSalesCountView;
     private ArrayList<Sale> mCurrentSales = new ArrayList<>();
     private ArrayList<Discount> mCurrentSalesDiscounts = new ArrayList<>();
-    private Sale dummySaleForDiscount = new Sale(true, "", "0");
+
     private String mTotalDiscount = "0";
     private String mCurrentSalesTotalAmount = "0.00";
     private String mCurrentSalesTotalItems = "0";
@@ -186,7 +189,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             return true;
         }
-
+        if (item.getItemId() == R.id.action_time_frame) {
+            getSupportFragmentManager().beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .replace(R.id.fragment_container, DatePickerFragment.newInstance())
+                    .addToBackStack(null).commit();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -198,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-
+            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         } else if (id == R.id.nav_items) {
             startActivity(new Intent(this, ItemsActivity.class));
         } else if (id == R.id.nav_history) {
@@ -207,10 +215,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .replace(R.id.fragment_container, HistoryFragment.newInstance())
                     .addToBackStack(null).commit();
         } else if (id == R.id.nav_reports) {
-
+            getSupportFragmentManager().beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .replace(R.id.fragment_container, ReportFragment.newInstance())
+                    .addToBackStack(null).commit();
         } else if (id == R.id.nav_settings) {
-
-        } else if (id == R.id.nav_helps) {
 
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -225,18 +234,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         curentSaleItem.setItemName(item.getItemName());
         curentSaleItem.setItemPrice(item.getItemPrice());
         curentSaleItem.setItemQuantity(1);
-        if (mCurrentSales.size() > 1) {
-            Sale lastSaleItem = mCurrentSales.get(mCurrentSales.size() - 2);
-            if (lastSaleItem.toString().equals(curentSaleItem.toString())) {
-                lastSaleItem.setItemQuantity(lastSaleItem.getItemQuantity() + 1);
-            } else {
+        if (mCurrentSales.size() > 0) {
+            if (mCurrentSales.get(mCurrentSales.size() - 1).getItemName().equals("") &&
+                    mCurrentSales.get(mCurrentSales.size() - 1).getItemPrice().equals("0")) {
                 mCurrentSales.remove(mCurrentSales.size() - 1);
+            }
+            if (mCurrentSales.size() > 0) {
+                Sale lastSaleItem = mCurrentSales.get(mCurrentSales.size() - 1);
+                if (lastSaleItem.toString().equals(curentSaleItem.toString())) {
+                    lastSaleItem.setItemQuantity(lastSaleItem.getItemQuantity() + 1);
+                } else {
+                    // mCurrentSales.remove(mCurrentSales.size() - 1);
+                    mCurrentSales.add(curentSaleItem);
+                    //mCurrentSales.add(dummySaleForDiscount);
+                }
+            } else {
                 mCurrentSales.add(curentSaleItem);
-                mCurrentSales.add(dummySaleForDiscount);
             }
         } else {
+
             mCurrentSales.add(curentSaleItem);
-            mCurrentSales.add(dummySaleForDiscount);
+            //mCurrentSales.add(dummySaleForDiscount);
         }
         calculateCurrentTotalSale(mCurrentSales);
     }
@@ -249,6 +267,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             totalItem.add(new BigDecimal(sales.get(i).getItemQuantity()));
         }
         mCurrentSalesTotalAmount = Calculator.addAllData(totalItemAmount).toString();
+
 
         if (mCurrentSalesDiscounts.size() > 0) {
             List<BigDecimal> allDiscount = new ArrayList<>();
@@ -264,6 +283,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         mPreferences.edit().putString(KEY_CURRENT_SALES_TOTAL_DISCOUNT, mTotalDiscount).apply();
         mCurrentSalesTotalItems = Calculator.addAllData(totalItem).toString();
+
         Log.i(TAG, "total sales amount: " + mCurrentSalesTotalAmount + " total discount: " + mTotalDiscount);
         updateUI();
     }
@@ -328,13 +348,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    public void onHomeResume(boolean resumed) {
+        if (resumed) {
+            if (mCurrentSales.size() > 0) {
+                if (mCurrentSales.get(mCurrentSales.size() - 1).getItemName().equals("") &&
+                        mCurrentSales.get(mCurrentSales.size() - 1).getItemPrice().equals("0")) {
+                    mCurrentSales.remove(mCurrentSales.size() - 1);
+                }
+            }
+        }
+    }
+
+    @Override
     public void onFragmentStart(boolean showHomAsUp, boolean fromSaleActivity, String title) {
         Log.i(TAG, "onFragmentStart is " + showHomAsUp);
+        mCurrentSalesCountView.setVisibility(fromSaleActivity ? View.VISIBLE : View.GONE);
         if (showHomAsUp) {
             mDrawerToggle.setDrawerIndicatorEnabled(false);
             mToolbarTitleVIew.setText(fromSaleActivity ? "Total: ₱" + mCurrentSalesTotalAmount : title);
         } else {
             mDrawerToggle.setDrawerIndicatorEnabled(true);
+            mToolbarTitleVIew.setText(fromSaleActivity ? "Total: ₱" + mCurrentSalesTotalAmount : title);
             updateUI();
         }
     }
@@ -460,7 +494,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onNewSaleClicked() {
         getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
         mTransactionIsOnGoing = false;
         onFragmentStart(false, true, null);
         calculateCurrentTotalSale(mCurrentSales);
@@ -478,13 +511,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (lastSaleItem.toString().equals(customItem.toString())) {
                 lastSaleItem.setItemQuantity(lastSaleItem.getItemQuantity() + 1);
             } else {
-                mCurrentSales.remove(mCurrentSales.size() - 1);
+                //mCurrentSales.remove(mCurrentSales.size() - 1);
                 mCurrentSales.add(customItem);
-                mCurrentSales.add(dummySaleForDiscount);
+                //mCurrentSales.add(dummySaleForDiscount);
             }
         } else {
             mCurrentSales.add(customItem);
-            mCurrentSales.add(dummySaleForDiscount);
+            //mCurrentSales.add(dummySaleForDiscount);
         }
         calculateCurrentTotalSale(mCurrentSales);
     }
@@ -597,7 +630,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onHistoryItemClicked(History history) {
-
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(HistoryFragment.KEY_HISTORY, history);
+        getSupportFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .add(R.id.fragment_container, HistoryItemViewFragment.newInstance(bundle))
+                .addToBackStack(null).commit();
+        onFragmentStart(true, false, "₱" + history.getTotalAmount() + " Sale");
     }
 
 

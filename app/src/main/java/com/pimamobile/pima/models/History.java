@@ -1,5 +1,8 @@
 package com.pimamobile.pima.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.pimamobile.pima.utils.Calculator;
 
 import java.math.BigDecimal;
@@ -8,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class History {
+public class History implements Parcelable {
     private List<Sale> sales;
     private List<Discount> discounts;
     private String totalAmount = "0";
@@ -30,6 +33,15 @@ public class History {
         this.discounts = mDiscounts;
         this.timeStamp = timeStamp;
         this.receiptNumber = receiptNumber;
+    }
+
+    public History(Parcel source) {
+        source.readList(sales, List.class.getClassLoader());
+        source.readList(discounts, List.class.getClassLoader());
+        this.totalAmount = source.readString();
+        this.timeStamp = source.readLong();
+        this.totalDiscount = source.readString();
+        this.receiptNumber = source.readString();
     }
 
     public List<Sale> getSales() {
@@ -79,6 +91,19 @@ public class History {
         return totalAmount;
     }
 
+    public String getCalculateTotalDiscountAmount() {
+        if (discounts.size() > 0) {
+            List<BigDecimal> allDiscount = new ArrayList<>();
+            for (int i = 0; i < discounts.size(); i++) {
+                allDiscount.add(new BigDecimal(discounts.get(i).getDiscountAmount()));
+            }
+            totalDiscount = Calculator.addAllData(allDiscount).toString();
+        } else {
+            totalDiscount = "0";
+        }
+        return totalDiscount;
+    }
+
     public long getTimeStamp() {
         return timeStamp;
     }
@@ -116,5 +141,32 @@ public class History {
 
     public void setReceiptNumber(String receiptNumber) {
         this.receiptNumber = receiptNumber;
+    }
+
+    public static final Parcelable.Creator<History> CREATOR = new Parcelable.Creator<History>() {
+        @Override
+        public History createFromParcel(Parcel source) {
+            return new History(source);
+        }
+
+        @Override
+        public History[] newArray(int size) {
+            return new History[0];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeList(sales);
+        dest.writeList(discounts);
+        dest.writeString(totalAmount);
+        dest.writeLong(timeStamp);
+        dest.writeString(totalDiscount);
+        dest.writeString(receiptNumber);
     }
 }
