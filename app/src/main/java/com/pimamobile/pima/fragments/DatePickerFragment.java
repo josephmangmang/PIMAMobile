@@ -47,10 +47,11 @@ public class DatePickerFragment extends Fragment {
 
         return view;
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if(context instanceof OnFragmentInteractListener){
+        if (context instanceof OnFragmentInteractListener) {
             mListener = (OnFragmentInteractListener) context;
         }
     }
@@ -65,7 +66,9 @@ public class DatePickerFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         List<Date> selectedDates = calendar.getSelectedDates();
-        if (mOnDatePickerChangeListener != null) mOnDatePickerChangeListener.onDatePickerChange(selectedDates);
+
+        if (mOnDatePickerChangeListener != null)
+            mOnDatePickerChangeListener.onDatePickerChange(selectedDates);
 
     }
 

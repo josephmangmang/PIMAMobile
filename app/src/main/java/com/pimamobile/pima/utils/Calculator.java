@@ -6,6 +6,7 @@ import android.util.Log;
 import com.pimamobile.pima.models.Discount;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public class Calculator {
@@ -50,7 +51,7 @@ public class Calculator {
 
     // divide
     public BigDecimal getQuotient() {
-        return mAmountOne.divide(mAmountTwo);
+        return mAmountOne.divide(mAmountTwo, DECIMALS, RoundingMode.HALF_UP);
     }
 
     // Multiply

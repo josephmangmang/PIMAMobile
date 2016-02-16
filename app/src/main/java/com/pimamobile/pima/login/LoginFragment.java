@@ -85,12 +85,14 @@ public class LoginFragment extends Fragment {
                     public void onResponse(String response) {
                         boolean error = true;
                         int id = -1;
+                        String name = getString(R.string.app_name);
                         showProgress(false);
                         Log.i(TAG, "OnResponse: " + response);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             error = jsonObject.getBoolean("error");
                             id = jsonObject.getInt("id");
+                            name = jsonObject.getString("branch_name");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -99,6 +101,7 @@ public class LoginFragment extends Fragment {
                         } else {
                             preferences.edit().putBoolean(SettingActivity.KEY_REMEMBER, rememberMe).apply();
                             preferences.edit().putInt(SettingActivity.KEY_USER_ID, id).apply();
+                            preferences.edit().putString(SettingActivity.KEY_BRANCH_NAME, name).apply();
                             startActivity(new Intent(getActivity(), MainActivity.class));
                             getActivity().finish();
                         }

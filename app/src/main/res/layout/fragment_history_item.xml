@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:src="@drawable/ic_menu_manage" />
+                    android:src="@drawable/sales_history" />
 
                 <com.pimamobile.pima.utils.RobotoTextView
                     style="@style/AppTheme.RobotoText"
@@ -82,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:src="@drawable/ic_menu_manage" />
+                    android:src="@drawable/sales_receipt" />
 
                 <com.pimamobile.pima.utils.RobotoTextView
                     style="@style/AppTheme.RobotoText"

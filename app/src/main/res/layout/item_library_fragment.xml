@@ -20,11 +20,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="bottom"
+            android:layout_marginTop="@dimen/key_padding"
+            android:layout_marginBottom="@dimen/key_padding"
             android:spinnerMode="dropdown">
 
         </android.support.v7.widget.AppCompatSpinner>
 
         <ImageButton
+            android:visibility="gone"
             android:id="@+id/library_buttonSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -65,6 +65,7 @@ public class HistoryFragment extends Fragment {
     private List<SectionedRecyclerViewAdapter.Section> sections = new ArrayList<>();
     private String mPreviousDate = "";
     private int USER_ID;
+    private View mEmptyView;
 
     public static HistoryFragment newInstance() {
         return new HistoryFragment();
@@ -88,7 +89,7 @@ public class HistoryFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.list);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         mErrorContainer = view.findViewById(R.id.history_error_container);
-
+        mEmptyView = view.findViewById(R.id.history_empty_data);
         mSwipeRefreshLayout.setColorSchemeColors(
                 R.color.refresh_progress1,
                 R.color.refresh_progress2,
@@ -298,7 +299,11 @@ public class HistoryFragment extends Fragment {
                     noMoreHistory = jsonObject.getBoolean("noMoreHistory");
                     JSONArray jsonHistories = jsonObject.getJSONArray("histories");
 
-
+                    if (jsonHistories.length() == 0) {
+                        mEmptyView.setVisibility(View.VISIBLE);
+                    } else {
+                        mEmptyView.setVisibility(View.GONE);
+                    }
                     for (int i = 0; i < jsonHistories.length(); i++) {
                         JSONObject jsonHistory = jsonHistories.getJSONObject(i);
                         History history = new History();

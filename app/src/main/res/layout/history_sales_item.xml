@@ -19,7 +19,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
-            android:src="@drawable/ic_menu_gallery" />
+            android:src="@drawable/sales_history" />
 
         <LinearLayout
             android:id="@+id/amount_and_time_container"
@@ -68,7 +68,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
-            android:src="@drawable/ic_menu_camera" />
+            android:src="@drawable/go_forward" />
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>

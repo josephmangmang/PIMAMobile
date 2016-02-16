@@ -26,6 +26,16 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <com.pimamobile.pima.utils.RobotoTextView
+        android:id="@+id/history_empty_data"
+        android:visibility="gone"
+        style="@style/AppTheme.RobotoTextHeadline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/history_no_data"
+        app:typeface="roboto_black" />
+
     <LinearLayout
         android:id="@+id/history_error_container"
         android:layout_width="wrap_content"

@@ -23,12 +23,13 @@
 
         <com.pimamobile.pima.utils.RobotoTextView
             android:id="@+id/report_no_data_title"
+
             style="@style/AppTheme.RobotoTextMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginBottom="@dimen/activity_horizontal_margin"
-            android:drawableTop="@mipmap/ic_launcher"
+            android:drawableTop="@mipmap/nav_action_settings"
             android:gravity="center"
             android:text="@string/report_no_data_title"
             app:typeface="roboto_black" />

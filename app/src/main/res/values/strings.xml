@@ -84,7 +84,8 @@
     <string name="preference_branch_password">Edit branch password</string>
     <string name="preference_branch_password_summary">Change branch password</string>
     <string name="settings_label">Settings</string>
-    <string name="report_no_data">No transaction took place in the time frame you have selcted. Try selecting different time frame.</string>
+    <string name="report_no_data">No transaction took place in the time frame you have selected. Try selecting different time frame.</string>
     <string name="report_no_data_title">No transactions for time period</string>
+    <string name="history_no_data">No history to display.</string>
 
 </resources>

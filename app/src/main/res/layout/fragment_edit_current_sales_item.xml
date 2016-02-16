@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_horizontal_margin"
                 android:layout_toLeftOf="@+id/edit_current_sales_quantity"
-                android:src="@drawable/ic_menu_camera" />
+                android:src="@drawable/quantity_deduct" />
 
             <EditText
                 android:id="@+id/edit_current_sales_quantity"
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_horizontal_margin"
                 android:layout_toRightOf="@+id/edit_current_sales_quantity"
-                android:src="@drawable/ic_menu_camera" />
+                android:src="@drawable/quantity_add" />
         </RelativeLayout>
 
         <Button
@@ -75,12 +75,14 @@
             android:textColor="@color/colorAccent" />
 
         <com.pimamobile.pima.utils.RobotoTextView
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="DISCOUNTS"
             app:typeface="roboto_black" />
 
         <RelativeLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

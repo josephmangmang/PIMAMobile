@@ -49,7 +49,7 @@
             android:id="@+id/current_sales_discount_remove"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_camera"
+            android:src="@drawable/action_remove"
             android:layout_marginLeft="@dimen/activity_horizontal_margin" />
     </LinearLayout>
 </RelativeLayout>

@@ -169,4 +169,6 @@ public class History implements Parcelable {
         dest.writeString(totalDiscount);
         dest.writeString(receiptNumber);
     }
+
+
 }

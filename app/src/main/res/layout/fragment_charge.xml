@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:src="@drawable/ic_menu_camera" />
+            android:src="@mipmap/charge_done" />
 
         <com.pimamobile.pima.utils.RobotoTextView
             android:id="@+id/charge_thanks_title"

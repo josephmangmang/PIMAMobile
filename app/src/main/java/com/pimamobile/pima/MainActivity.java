@@ -107,6 +107,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mCurrentSaleButton.setOnClickListener(currentSalesButtonListener);
 
         USER_ID = mPreferences.getInt(SettingActivity.KEY_USER_ID, -1);
+        String branchName = mPreferences.getString(SettingActivity.KEY_BRANCH_NAME, getString(R.string.app_name));
+        View navHeader = navigationView.getHeaderView(0);
+        ((TextView) navHeader.findViewById(R.id.branch_name)).setText(branchName);
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, HomeFragment.newInstance(), "home").commit();
 
@@ -405,8 +409,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onCurrentDiscountRemove(final Discount discount, final int position) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("Delete")
-                .setMessage("Are you sure to remove " + discount.getDiscountName())
+        alert.setTitle("Remove")
+                .setMessage("Are you sure you will remove " + discount.getDiscountName() + "?")
                 .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

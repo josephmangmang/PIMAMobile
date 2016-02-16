@@ -34,13 +34,17 @@ import com.pimamobile.pima.adapter.SectionedRecyclerViewAdapter;
 import com.pimamobile.pima.models.Discount;
 import com.pimamobile.pima.models.History;
 import com.pimamobile.pima.models.Sale;
+import com.pimamobile.pima.utils.Calculator;
 import com.pimamobile.pima.utils.interfaces.OnFragmentInteractListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -87,10 +91,6 @@ public class ReportFragment extends Fragment implements DatePickerFragment.OnDat
         mNoDataSubTitle = (TextView) view.findViewById(R.id.report_no_data);
         mNoDataTitle = (TextView) view.findViewById(R.id.report_no_data_title);
 
-
-        List<Date> today = new ArrayList<>();
-        today.add(new Date());
-        getSummaryReport(today);
         return view;
     }
 
@@ -105,13 +105,12 @@ public class ReportFragment extends Fragment implements DatePickerFragment.OnDat
     @Override
     public void onStart() {
         super.onStart();
-        mListener.onFragmentStart(true, false, "Sales Report");
+        mListener.onFragmentStart(false, false, "Sales Report");
     }
 
     private void getSummaryReport(List<Date> dates) {
         mHistories = new ArrayList<>();
         showProgressBar(true);
-        noDataFromDateRange(false);
         if (dates == null) {
             dates = new ArrayList<>();
             dates.add(new Date());
@@ -225,7 +224,40 @@ public class ReportFragment extends Fragment implements DatePickerFragment.OnDat
     }
 
     private void updateUiData() {
+        String DATE_PATERN = "MMMM d, yyyy";
+        String date;
+        String grossSales = "0";
+        String totalSales = "0";
+        String averageSales = "0";
+        String discount = "0";
+        String netSales = "0";// or netTotal
+        if (mHistories.size() == 1) {
+            date = mHistories.get(0).formatTimeStamp(DATE_PATERN);
+            netSales = mHistories.get(0).getTotalAmount();
+            discount = mHistories.get(0).getCalculateTotalDiscountAmount();
+            totalSales = mHistories.get(0).getSales().size() + "";
+            grossSales = Calculator.addAmount(new BigDecimal(netSales), new BigDecimal(discount)).toString();
+            averageSales = new Calculator(new BigDecimal(grossSales), new BigDecimal(totalSales)).getQuotient().toString();
 
+        } else {
+            for (int i = 0; i < mHistories.size(); i++) {
+                netSales = Calculator.addAmount(new BigDecimal(netSales), new BigDecimal(mHistories.get(i).getTotalAmount())).toString();
+                discount = Calculator.addAmount(new BigDecimal(discount), new BigDecimal(mHistories.get(i).getCalculateTotalDiscountAmount())).toString();
+                totalSales = Calculator.addAmount(new BigDecimal(totalSales), new BigDecimal(mHistories.get(i).getSales().size())).toString();
+            }
+            grossSales = Calculator.addAmount(new BigDecimal(netSales), new BigDecimal(discount)).toString();
+            averageSales = new Calculator(new BigDecimal(grossSales), new BigDecimal(totalSales)).getQuotient().toString();
+            date = mHistories.get(0).formatTimeStamp(DATE_PATERN) + " - " + mHistories.get(mHistories.size() - 1).formatTimeStamp(DATE_PATERN);
+        }
+
+        mDate.setText(date);
+        mGrossSales.setText("₱" + grossSales);
+        mTotalSales.setText(totalSales);
+        mAverageSales.setText("₱" + averageSales);
+        mSummaryGrossSales.setText("₱" + grossSales);
+        mSummaryDiscount.setText("-₱" + discount);
+        mSummaryNetSales.setText("₱" + netSales);
+        mSummaryNetTotal.setText("₱" + netSales);
     }
 
     private void showProgressBar(boolean show) {
@@ -259,6 +291,7 @@ public class ReportFragment extends Fragment implements DatePickerFragment.OnDat
 
     @Override
     public void onDatePickerChange(List<Date> dates) {
+        noDataFromDateRange(false);
         getSummaryReport(dates);
     }
 }

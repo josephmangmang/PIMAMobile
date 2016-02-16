@@ -23,8 +23,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:typeface="roboto_regular"
+        android:id="@+id/branch_name"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Company Name"
+        android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 </LinearLayout>

@@ -6,19 +6,19 @@
             android:checked="true"
             android:checkable="true"
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@mipmap/nav_action_sales"
             android:title="HOME" />
 
         <item
             android:checkable="true"
             android:id="@+id/nav_history"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@mipmap/nav_action_sales_history"
             android:title="HISTORY" />
 
         <item
             android:checkable="true"
             android:id="@+id/nav_reports"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@mipmap/nav_action_sales_report"
             android:title="REPORTS" />
     </group>
 
@@ -26,11 +26,11 @@
     <group>
         <item
             android:id="@+id/nav_items"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@mipmap/nav_action_items"
             android:title="ITEMS" />
         <item
             android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@mipmap/nav_action_settings"
             android:title="SETTINGS" />
     </group>
 
